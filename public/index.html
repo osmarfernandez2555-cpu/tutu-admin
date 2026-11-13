@@ -4,151 +4,134 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tutu Admin · Panel de Adrián</title>
-<meta name="theme-color" content="#0d0d0d">
+<meta name="theme-color" content="#08080a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0d0d0d; --panel:#151515; --card:#1a1a1a; --card2:#202020;
-    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
-    --tx:#f2f2f2; --tx2:#a8a8a8; --tx3:#6f6f6f;
-    --acc:#f5a623; --acc2:#ffbf4d; --accbg:rgba(245,166,35,.1);
+    --bg:#08080a; --panel:#121214; --card:#18181b; --card2:#202024;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.15);
+    --tx:#f3f3f3; --tx2:#a5a5ab; --tx3:#6b6b72;
+    --acc:#f5a623; --acc2:#ffc35c; --accbg:rgba(245,166,35,.12);
     --ok:#3ecf8e; --bad:#ff6b6b;
-    --r:14px;
+    --c-ventas:#f5a623; --c-ref:#3ecf8e; --c-wa:#4fb3ff; --c-mkt:#c38bff;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
+  html,body{height:100%;overflow:hidden}
   body{background:var(--bg);color:var(--tx);font-family:'Barlow',system-ui,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   input,textarea{font:inherit;color:inherit}
-  .cond{font-family:'Barlow Condensed','Arial Narrow',sans-serif}
-  :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+  :focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:8px}
+  .logo{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:900;letter-spacing:.02em;line-height:1}
+  .logo b{color:var(--acc)}
 
   /* ── login ── */
-  #login{position:fixed;inset:0;display:grid;place-items:center;padding:24px;
-    background:radial-gradient(900px 500px at 50% -10%,rgba(245,166,35,.13),transparent 70%),var(--bg);z-index:50}
-  .login-box{width:100%;max-width:360px;text-align:center}
-  .logo{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:900;font-size:56px;letter-spacing:.02em;line-height:1}
-  .logo b{color:var(--acc)}
-  .login-sub{color:var(--tx2);font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin:8px 0 34px}
-  .field{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:14px 16px;font-size:16px;outline:none;transition:border-color .15s}
+  #login{position:fixed;inset:0;display:grid;place-items:center;padding:24px;z-index:50;
+    background:radial-gradient(800px 500px at 50% 40%,rgba(245,166,35,.12),transparent 70%),var(--bg)}
+  .login-box{width:100%;max-width:340px;text-align:center}
+  .login-box .logo{font-size:58px}
+  .login-sub{color:var(--tx2);font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin:10px 0 34px}
+  .field{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:14px 16px;font-size:16px;outline:none}
   .field:focus{border-color:var(--acc)}
-  .btn-acc{width:100%;margin-top:12px;background:var(--acc);color:#111;border-radius:12px;padding:14px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.08em;text-transform:uppercase;transition:background .15s,transform .1s}
-  .btn-acc:hover{background:var(--acc2)} .btn-acc:active{transform:scale(.98)}
+  .btn-acc{width:100%;margin-top:12px;background:var(--acc);color:#111;border-radius:12px;padding:14px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.08em;text-transform:uppercase}
+  .btn-acc:hover{background:var(--acc2)}
   #loginErr{color:var(--bad);font-size:13px;min-height:20px;margin-top:12px}
 
-  /* ── layout ── */
-  #app{display:none;height:100%}
-  .shell{display:grid;grid-template-columns:1fr 400px;height:100%}
-  main{overflow-y:auto;padding:28px 36px 60px}
-  aside{border-left:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;min-height:0}
-
-  header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
-  .brand{display:flex;align-items:baseline;gap:14px}
-  .brand .logo{font-size:34px}
-  .brand .tag{color:var(--tx3);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
-  .hola{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:40px;line-height:1.05;margin-top:16px}
-  .hola span{color:var(--acc)}
-  .fecha{color:var(--tx2);font-size:14px;margin-top:4px;text-transform:capitalize}
-  .top-actions{display:flex;gap:8px;align-items:center}
-  .chip-btn{border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--tx2);transition:all .15s}
+  /* ── estructura ── */
+  #app{display:none;height:100%;flex-direction:column;
+    background:radial-gradient(1100px 700px at 50% 48%,rgba(245,166,35,.07),transparent 65%),var(--bg)}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 26px 0;flex:none;position:relative;z-index:5}
+  .brand{display:flex;align-items:baseline;gap:12px}
+  .brand .logo{font-size:30px}
+  .hola{color:var(--tx2);font-size:14px}
+  .hola b{color:var(--tx);font-weight:600}
+  .acciones{display:flex;gap:8px}
+  .chip-btn{border:1px solid var(--line2);border-radius:999px;padding:7px 13px;font-size:13px;color:var(--tx2);transition:color .15s,border-color .15s;display:flex;align-items:center;gap:6px}
   .chip-btn:hover{color:var(--tx);border-color:var(--tx3)}
+  .demo{display:none;position:relative;z-index:5;margin:10px auto 0;max-width:640px;text-align:center;background:var(--accbg);border:1px solid rgba(245,166,35,.35);color:var(--acc2);border-radius:999px;padding:6px 14px;font-size:12.5px}
 
-  .demo-bar{display:none;background:var(--accbg);border:1px solid rgba(245,166,35,.35);color:var(--acc2);border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:20px}
+  #escena{position:relative;flex:1;min-height:0}
+  #lienzo{position:absolute;inset:0;width:100%;height:100%;display:block}
 
-  .search{position:relative;margin-bottom:28px}
-  .search input{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:14px;padding:15px 16px 15px 48px;font-size:16px;outline:none}
-  .search input:focus{border-color:var(--acc)}
-  .search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--tx3)}
-  .search kbd{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:inherit;font-size:12px;color:var(--tx3);border:1px solid var(--line2);border-radius:6px;padding:2px 7px}
+  /* esfera (zona clickeable) */
+  #esfera{position:absolute;border-radius:50%;transform:translate(-50%,-50%);z-index:3;background:transparent}
+  #esfera:focus-visible{outline-offset:6px;border-radius:50%}
+  .estado-esfera{position:absolute;transform:translateX(-50%);z-index:3;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--tx3);pointer-events:none;white-space:nowrap;transition:color .2s}
+  .estado-esfera.vivo{color:var(--acc)}
 
-  .resumen{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;min-width:130px}
-  .stat .n{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:28px;line-height:1}
-  .stat .l{font-size:12px;color:var(--tx2);margin-top:4px}
-  .stat.ok .n{color:var(--ok)} .stat.bad .n{color:var(--bad)} .stat.warn .n{color:var(--acc)}
+  /* apps alrededor */
+  .app{position:absolute;transform:translate(-50%,-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:7px;width:104px;text-decoration:none;color:inherit;animation:flota 6s ease-in-out infinite}
+  .app .bola{position:relative;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;font-size:27px;
+    background:radial-gradient(circle at 35% 30%,#2a2a2f,#151518 70%);border:1.5px solid var(--cc,var(--line2));
+    box-shadow:0 0 0 0 var(--cc),0 10px 24px rgba(0,0,0,.45);transition:transform .2s,box-shadow .2s}
+  .app:hover .bola,.app:focus-visible .bola,.app.activa .bola{transform:scale(1.12);box-shadow:0 0 26px -4px var(--cc),0 10px 24px rgba(0,0,0,.45)}
+  .app .nom{font-size:13px;font-weight:600;text-align:center;line-height:1.15;text-shadow:0 2px 8px #000}
+  .app .st{position:absolute;top:3px;right:3px;width:11px;height:11px;border-radius:50%;background:var(--tx3);border:2px solid var(--bg)}
+  .app .st.ok{background:var(--ok)} .app .st.bad{background:var(--bad)}
+  .app.sin{opacity:.5} .app.sin .bola{border-style:dashed}
+  .app:focus-visible{outline:none} .app:focus-visible .bola{outline:2px solid var(--acc);outline-offset:4px}
+  @keyframes flota{0%,100%{margin-top:0}50%{margin-top:-7px}}
 
-  section.cat{margin-bottom:30px}
-  .cat h2{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx2);margin-bottom:12px;display:flex;align-items:center;gap:10px}
-  .cat h2::after{content:"";flex:1;height:1px;background:var(--line)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .tip{position:absolute;z-index:6;max-width:240px;background:var(--card2);border:1px solid var(--line2);border-radius:10px;padding:9px 12px;font-size:12.5px;color:var(--tx2);pointer-events:none;opacity:0;transform:translate(-50%,8px);transition:opacity .15s}
+  .tip b{display:block;color:var(--tx);font-size:13px;margin-bottom:2px}
+  .tip.ver{opacity:1}
 
-  .card{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;min-height:132px;transition:border-color .15s,background .15s,transform .15s}
-  .card:hover{border-color:rgba(245,166,35,.5);background:var(--card2);transform:translateY(-2px)}
-  .card .ic{font-size:22px;width:40px;height:40px;border-radius:10px;background:var(--bg);display:grid;place-items:center;border:1px solid var(--line)}
-  .card .nm{font-weight:600;font-size:15.5px;line-height:1.25;padding-right:22px}
-  .card .ds{font-size:13px;color:var(--tx2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .card .st{position:absolute;top:16px;right:16px;width:9px;height:9px;border-radius:50%;background:var(--tx3)}
-  .card .st.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(62,207,142,.14)}
-  .card .st.bad{background:var(--bad);box-shadow:0 0 0 4px rgba(255,107,107,.14)}
-  .card.sin{opacity:.62;border-style:dashed}
-  .card.sin:hover{transform:none}
-  .card .falta{font-size:12px;color:var(--acc);margin-top:auto}
-  .card .falta code{font-size:11px;color:var(--tx3)}
-  .vacio{color:var(--tx2);padding:30px 0;text-align:center}
+  .leyenda{position:absolute;left:26px;bottom:14px;z-index:4;display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--tx3)}
+  .leyenda span{display:flex;align-items:center;gap:6px}
+  .leyenda i{width:8px;height:8px;border-radius:50%;background:var(--cc)}
 
-  /* ── asistente ── */
-  .as-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .as-title{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase}
-  .as-title small{display:block;font-family:'Barlow';font-weight:500;font-size:12px;letter-spacing:0;text-transform:none;color:var(--tx2)}
-  .as-tools{display:flex;gap:6px}
-  .ico-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--tx2);transition:all .15s}
-  .ico-btn:hover{color:var(--tx);border-color:var(--tx3)}
-  .ico-btn.on{color:#111;background:var(--acc);border-color:var(--acc)}
-  .as-close{display:none}
+  /* dock inferior */
+  .dock{flex:none;position:relative;z-index:5;padding:0 18px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:10px}
+  .subt{max-width:760px;width:100%;padding-top:8px;text-align:center;min-height:48px;display:flex;flex-direction:column;gap:4px;justify-content:flex-end}
+  .subt .yo{font-size:13.5px;color:var(--tx3)}
+  .subt .ella{font-size:17px;line-height:1.4;color:var(--tx);white-space:pre-wrap}
+  .subt .ella.err{color:#ffb3b3}
+  .subt .links{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:4px}
+  .subt .links a{font-size:13px;color:var(--acc);text-decoration:none;border:1px solid rgba(245,166,35,.45);border-radius:999px;padding:4px 11px}
+  .subt .links a:hover{background:var(--accbg)}
+  .sugs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+  .sug{font-size:12.5px;color:var(--tx2);border:1px solid var(--line2);border-radius:999px;padding:5px 11px;transition:color .15s,border-color .15s}
+  .sug:hover{color:var(--tx);border-color:var(--acc)}
+  .barra{width:100%;max-width:640px;display:flex;gap:8px;align-items:center;background:rgba(24,24,27,.85);backdrop-filter:blur(10px);border:1px solid var(--line2);border-radius:999px;padding:6px}
+  .barra:focus-within{border-color:rgba(245,166,35,.6)}
+  .barra input{flex:1;background:none;border:0;outline:none;padding:9px 6px 9px 10px;font-size:15.5px;min-width:0}
+  .ico{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--tx2);transition:all .15s}
+  .ico:hover{color:var(--tx);background:rgba(255,255,255,.06)}
+  .ico.on{color:var(--acc)}
+  .ico.mic.rec{background:var(--bad);color:#fff}
+  .ico.send{background:var(--acc);color:#111}
+  .ico.send:disabled{opacity:.35;cursor:default}
 
-  #chat{flex:1;overflow-y:auto;padding:18px 18px 8px;display:flex;flex-direction:column;gap:12px;min-height:0}
-  .msg{max-width:88%;padding:11px 14px;border-radius:14px;font-size:14.5px;white-space:pre-wrap;word-wrap:break-word}
+  /* historial */
+  #hist{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);z-index:30;background:var(--panel);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+  #hist.open{transform:none}
+  .hist-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
+  .hist-head h2{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:19px;letter-spacing:.06em;text-transform:uppercase}
+  #histLista{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:88%;padding:10px 13px;border-radius:14px;font-size:14px;white-space:pre-wrap;word-wrap:break-word}
   .msg.u{align-self:flex-end;background:var(--acc);color:#111;border-bottom-right-radius:4px}
   .msg.a{align-self:flex-start;background:var(--card2);border:1px solid var(--line);border-bottom-left-radius:4px}
-  .msg.err{border-color:rgba(255,107,107,.4);color:#ffb3b3}
-  .msg .links{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
-  .msg .links a{font-size:13px;color:var(--acc);text-decoration:none;border:1px solid rgba(245,166,35,.4);border-radius:999px;padding:4px 10px}
-  .msg .links a:hover{background:var(--accbg)}
-  .typing{display:inline-flex;gap:4px;padding:4px 2px}
-  .typing i{width:6px;height:6px;border-radius:50%;background:var(--tx3);animation:b 1s infinite}
-  .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
-  @keyframes b{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+  .hist-vacio{color:var(--tx3);text-align:center;margin-top:30px;font-size:14px}
 
-  .sugs{display:flex;flex-wrap:wrap;gap:6px;padding:4px 18px 10px}
-  .sug{font-size:12.5px;color:var(--tx2);border:1px solid var(--line2);border-radius:999px;padding:6px 11px;transition:all .15s}
-  .sug:hover{color:var(--tx);border-color:var(--acc)}
-
-  .composer{padding:12px 14px 16px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end}
-  .composer textarea{flex:1;resize:none;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:11px 13px;font-size:15px;max-height:120px;outline:none;line-height:1.35}
-  .composer textarea:focus{border-color:var(--acc)}
-  .mic{width:46px;height:46px;border-radius:50%;background:var(--card2);border:1px solid var(--line2);display:grid;place-items:center;flex:none;transition:all .15s;position:relative}
-  .mic:hover{border-color:var(--acc);color:var(--acc)}
-  .mic.rec{background:var(--bad);border-color:var(--bad);color:#fff}
-  .mic.rec::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--bad);animation:p 1.2s infinite}
-  @keyframes p{0%{opacity:.8;transform:scale(.9)}100%{opacity:0;transform:scale(1.25)}}
-  .send{width:46px;height:46px;border-radius:50%;background:var(--acc);color:#111;display:grid;place-items:center;flex:none}
-  .send:disabled{opacity:.4;cursor:default}
-  .voz-estado{font-size:12px;color:var(--tx2);padding:0 18px 4px;min-height:18px}
-
-  .fab{display:none}
-
-  /* ── responsive ── */
-  @media (max-width:980px){
-    .shell{grid-template-columns:1fr}
-    main{padding:20px 16px 110px}
-    .hola{font-size:32px}
-    aside{position:fixed;inset:0;z-index:40;transform:translateY(100%);transition:transform .28s ease;border-left:0}
-    aside.open{transform:none}
-    .as-close{display:grid}
-    .fab{display:flex;position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;align-items:center;gap:8px;background:var(--acc);color:#111;border-radius:999px;padding:14px 20px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:16px;letter-spacing:.06em;text-transform:uppercase;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-    .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-    .card{min-height:118px}
-    .search kbd{display:none}
+  @media (max-width:720px){
+    header{padding:14px 16px 0}
+    .brand .logo{font-size:26px}
+    .hola{display:none}
+    .chip-btn .txt{display:none}
+    .app{width:78px;gap:5px}
+    .app .bola{width:50px;height:50px;font-size:21px}
+    .app .nom{font-size:11.5px}
+    .leyenda{display:none}
+    .subt .ella{font-size:15.5px}
+    .sugs{display:none}
   }
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media (prefers-reduced-motion:reduce){.app{animation:none}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login">
-  <form class="login-box" id="loginForm" autocomplete="on">
+  <form class="login-box" id="loginForm">
     <div class="logo">TUTU<b>.</b></div>
     <div class="login-sub">Panel de administración</div>
     <input class="field" id="pass" type="password" placeholder="Contraseña" autocomplete="current-password" required>
@@ -157,352 +140,395 @@
   </form>
 </div>
 
-<!-- APP -->
 <div id="app">
-  <div class="shell">
-    <main>
-      <header class="top">
-        <div>
-          <div class="brand"><div class="logo">TUTU<b>.</b></div><div class="tag">Admin</div></div>
-          <h1 class="hola" id="hola">Hola, <span>Adrián</span></h1>
-          <div class="fecha" id="fecha"></div>
-        </div>
-        <div class="top-actions">
-          <button class="chip-btn" id="btnRevisar" title="Volver a revisar qué apps responden">↻ Revisar estado</button>
-          <button class="chip-btn" id="btnSalir">Salir</button>
-        </div>
-      </header>
+  <header>
+    <div class="brand"><div class="logo">TUTU<b>.</b></div><div class="hola" id="hola"></div></div>
+    <div class="acciones">
+      <button class="chip-btn" id="btnVoz" title="Leer respuestas en voz alta" aria-pressed="true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg><span class="txt" id="vozTxt">Voz activada</span></button>
+      <button class="chip-btn" id="btnHist" title="Ver la conversación">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><span class="txt">Conversación</span></button>
+      <button class="chip-btn" id="btnSalir">Salir</button>
+    </div>
+  </header>
+  <div class="demo" id="demo">Vista previa: el asistente solo abre apps. La IA y los datos de referidos funcionan en Railway.</div>
 
-      <div class="demo-bar" id="demoBar">Vista previa: los links funcionan, pero el asistente con IA y los datos de referidos se activan cuando el panel corre en Railway.</div>
-
-      <div class="search">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="buscar" type="search" placeholder="Buscar una app… (Enter abre la primera)" autocomplete="off">
-        <kbd>/</kbd>
-      </div>
-
-      <div class="resumen" id="resumen"></div>
-      <div id="secciones"></div>
-    </main>
-
-    <aside id="asistente" aria-label="Asistente">
-      <div class="as-head">
-        <div class="as-title">Asistente<small id="asModo">Hablale o escribile</small></div>
-        <div class="as-tools">
-          <button class="ico-btn on" id="btnVoz" title="Leer respuestas en voz alta" aria-pressed="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
-          </button>
-          <button class="ico-btn" id="btnLimpiar" title="Nueva conversación">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
-          </button>
-          <button class="ico-btn as-close" id="btnCerrarAs" title="Cerrar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
-          </button>
-        </div>
-      </div>
-      <div id="chat" aria-live="polite"></div>
-      <div class="sugs" id="sugs"></div>
-      <div class="voz-estado" id="vozEstado"></div>
-      <div class="composer">
-        <button class="mic" id="btnMic" title="Hablar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
-        </button>
-        <textarea id="texto" rows="1" placeholder="Preguntá o pedí que abra una app…"></textarea>
-        <button class="send" id="btnEnviar" title="Enviar" disabled>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </button>
-      </div>
-    </aside>
+  <div id="escena">
+    <canvas id="lienzo"></canvas>
+    <button id="esfera" aria-label="Hablar con el asistente" title="Tocá para hablar"></button>
+    <div class="estado-esfera" id="estadoEsfera">Tocá para hablar</div>
+    <div id="apps"></div>
+    <div class="tip" id="tip"></div>
+    <div class="leyenda" id="leyenda"></div>
   </div>
-  <button class="fab" id="fab">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
-    Asistente
-  </button>
+
+  <div class="dock">
+    <div class="subt" id="subt" aria-live="polite"></div>
+    <div class="sugs" id="sugs"></div>
+    <form class="barra" id="barra">
+      <button type="button" class="ico mic" id="btnMic" title="Hablar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
+      </button>
+      <input id="texto" type="text" placeholder="Preguntale algo o pedile que abra una app…" autocomplete="off">
+      <button type="submit" class="ico send" id="btnEnviar" title="Enviar" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+  </div>
 </div>
 
+<aside id="hist" aria-label="Conversación">
+  <div class="hist-head">
+    <h2>Conversación</h2>
+    <div style="display:flex;gap:6px">
+      <button class="chip-btn" id="btnNueva">Nueva</button>
+      <button class="chip-btn" id="btnCerrarHist" aria-label="Cerrar">✕</button>
+    </div>
+  </div>
+  <div id="histLista"></div>
+</aside>
+
 <script>
-// Lista de respaldo para la vista previa (en Railway se usa apps.json del servidor)
-const APPS_RESPALDO = [
-  {id:"ruthina",nombre:"Ruthina",cat:"Ventas y clientes",icono:"🤖",desc:"Asistente de ventas: stock, clientes, comparador de precios, presupuestos y libros de cierre.",url:"https://osmarfernandez2555-cpu.github.io/RUTHINA",palabras:"ruthina stock clientes presupuesto comparador libros cierre"},
-  {id:"appsheet-app",nombre:"AppSheet · TUTU - APP",cat:"Ventas y clientes",icono:"📱",desc:"App original de AppSheet: calculador histórico, compras, peritaje, entregas.",url:"https://www.appsheet.com/home/apps",palabras:"appsheet tutu app calculador historico compras peritaje entregas"},
-  {id:"appsheet-ventas",nombre:"AppSheet · TUTU - VENTAS",cat:"Ventas y clientes",icono:"📊",desc:"App original de AppSheet de ventas.",url:"https://www.appsheet.com/home/apps",palabras:"appsheet ventas"},
-  {id:"panel-app-ventas",nombre:"Panel App Ventas",cat:"Ventas y clientes",icono:"🗂️",desc:"Copia web de TUTU - APP y TUTU - VENTAS en Railway.",url:"",palabras:"panel app ventas copia appsheet"},
-  {id:"kommo",nombre:"Kommo CRM",cat:"Ventas y clientes",icono:"💬",desc:"Leads, conversaciones y embudo de ventas.",url:"https://admtutuautomotores.kommo.com",palabras:"kommo crm leads embudo"},
-  {id:"twenty",nombre:"CRM Twenty",cat:"Ventas y clientes",icono:"📇",desc:"CRM propio (tutu-crm) con leads y conversaciones de WhatsApp.",url:"",palabras:"twenty crm propio tutu-crm"},
-  {id:"referidos-admin",nombre:"Club de Referidos · Panel",cat:"Club de Referidos",icono:"🔑",desc:"Panel interno: referidos por estado, vendedor asignado, total a pagar y exportar a Excel.",url:"https://tutu-referidos.up.railway.app/referidos/admin",palabras:"referidos panel admin pagar premio"},
-  {id:"referidos-landing",nombre:"Club de Referidos · Landing",cat:"Club de Referidos",icono:"🎁",desc:"La página pública para cargar un referido ($100.000 por venta).",url:"https://tutu-referidos.up.railway.app/referidos",palabras:"referidos landing formulario cargar"},
-  {id:"referidos-bases",nombre:"Club de Referidos · Bases",cat:"Club de Referidos",icono:"📜",desc:"Bases y condiciones de la campaña (12/11 al 31/12/2026).",url:"https://tutu-referidos.up.railway.app/referidos/bases",palabras:"bases condiciones tyc referidos"},
-  {id:"consulta-creditos",nombre:"Consulta Créditos",cat:"Créditos",icono:"🏦",desc:"Calificación por CUIT en Bancor, Nación, Galicia, decreditos y Santander.",url:"",palabras:"consulta creditos bancor nacion galicia santander decreditos cuit calificar"},
-  {id:"calculador",nombre:"Calculador de Créditos",cat:"Créditos",icono:"🧮",desc:"Cuotas por banco, mismas fórmulas que el Excel CALCULADOR del mes.",url:"",palabras:"calculador cuotas credito bancos"},
-  {id:"tutusita",nombre:"Tutusita · Panel de Ventas",cat:"Bots de WhatsApp",icono:"🟢",desc:"Bot de WhatsApp con verificación BCRA y transcripciones de leads.",url:"https://tutu-chat-agent-production.up.railway.app",palabras:"tutusita bot whatsapp bcra leads"},
-  {id:"wapp",nombre:"WApp Sender · Bandejas",cat:"Bots de WhatsApp",icono:"📨",desc:"Bandejas de compra y venta del bot de WhatsApp en producción.",url:"https://tutu-wapp-production.up.railway.app",palabras:"wapp sender bandeja venta compra whatsapp"},
-  {id:"reventa",nombre:"Bot de Reventa",cat:"Bots de WhatsApp",icono:"🔁",desc:"Autos leídos de grupos de reventa, con exportación CSV.",url:"",palabras:"reventa grupos bot autos"},
-  {id:"publicador",nombre:"Publicador Marketplace",cat:"Marketing",icono:"🛒",desc:"Publicación masiva de autos en Facebook Marketplace, en tandas de 10.",url:"",palabras:"publicador marketplace facebook publicar"},
-  {id:"resenas",nombre:"Reseñas Tutu",cat:"Marketing",icono:"⭐",desc:"Reseñas de Google convertidas en historias de Instagram con la plantilla de Tutu.",url:"",palabras:"reseñas resenas google historias instagram"},
-  {id:"web",nombre:"tutuautomotores.com",cat:"Marketing",icono:"🌐",desc:"La web pública con los autos publicados.",url:"https://tutuautomotores.com",palabras:"web pagina sitio"},
-  {id:"showroom",nombre:"Showroom 3D",cat:"Marketing",icono:"🚘",desc:"Recorrido 3D del galpón con autos en 360°.",url:"",palabras:"showroom 3d 360"},
-  {id:"tutu-match",nombre:"Tutu Match",cat:"Marketing",icono:"❤️",desc:"App estilo Tinder para publicar autos y hacer match con compradores.",url:"",palabras:"tutu match tinder"},
-  {id:"galpon",nombre:"Galpón 3D · Agentes",cat:"Gestión",icono:"🏭",desc:"Oficinas por área con un agente por responsable que informa desde los datos reales.",url:"",palabras:"galpon agentes areas informes"},
-  {id:"railway",nombre:"Railway",cat:"Sistemas",icono:"🚂",desc:"Donde corren los servidores y bases de datos de todas las apps.",url:"https://railway.app/dashboard",palabras:"railway servidores deploy"},
-  {id:"github",nombre:"GitHub",cat:"Sistemas",icono:"🐙",desc:"Código de todas las apps.",url:"https://github.com/osmarfernandez2555-cpu",palabras:"github codigo repos"}
-];
-const SUGERENCIAS = ["¿Cuántos referidos nuevos hay?","¿Cuánto hay que pagar de referidos?","Abrí Ruthina","Abrí el panel de referidos","Abrí Kommo"];
+const APPS_RESPALDO = [{"id": "ruthina", "nombre": "Ruthina", "corto": "Ruthina", "cat": "Ventas y clientes", "icono": "🤖", "desc": "Asistente de ventas: stock, clientes, comparador, presupuestos, consulta de créditos y libros de cierre.", "url": "https://osmarfernandez2555-cpu.github.io/RUTHINA", "palabras": "ruthina stock clientes presupuesto comparador libros cierre creditos calculador"}, {"id": "appsheet-app", "nombre": "AppSheet · TUTU - APP", "corto": "TUTU APP", "cat": "Ventas y clientes", "icono": "📱", "desc": "App original de AppSheet: calculador histórico, compras, peritaje, entregas.", "url": "https://www.appsheet.com/home/apps", "palabras": "appsheet tutu app calculador historico compras peritaje entregas"}, {"id": "appsheet-ventas", "nombre": "AppSheet · TUTU - VENTAS", "corto": "TUTU VENTAS", "cat": "Ventas y clientes", "icono": "📊", "desc": "App original de AppSheet de ventas.", "url": "https://www.appsheet.com/home/apps", "palabras": "appsheet ventas"}, {"id": "kommo", "nombre": "Kommo CRM", "corto": "Kommo", "cat": "Ventas y clientes", "icono": "💬", "desc": "Leads, conversaciones y embudo de ventas.", "url": "https://admtutuautomotores.kommo.com", "palabras": "kommo crm leads embudo"}, {"id": "referidos-admin", "nombre": "Club de Referidos · Panel", "corto": "Referidos", "cat": "Club de Referidos", "icono": "🔑", "desc": "Panel interno: referidos por estado, vendedor asignado, total a pagar y exportar a Excel.", "url": "https://tutu-referidos.up.railway.app/referidos/admin", "palabras": "referidos panel admin pagar premio"}, {"id": "referidos-landing", "nombre": "Club de Referidos · Landing", "corto": "Landing", "cat": "Club de Referidos", "icono": "🎁", "desc": "La página pública para cargar un referido ($100.000 por venta).", "url": "https://tutu-referidos.up.railway.app/referidos", "palabras": "referidos landing formulario cargar"}, {"id": "referidos-bases", "nombre": "Club de Referidos · Bases", "corto": "Bases", "cat": "Club de Referidos", "icono": "📜", "desc": "Bases y condiciones de la campaña (12/11 al 31/12/2026).", "url": "https://tutu-referidos.up.railway.app/referidos/bases", "palabras": "bases condiciones tyc referidos"}, {"id": "wapp", "nombre": "WApp Sender · Bandejas", "corto": "WApp Sender", "cat": "WhatsApp", "icono": "📨", "desc": "Bandejas de compra y venta del bot de WhatsApp en producción.", "url": "https://tutu-wapp-production.up.railway.app", "palabras": "wapp sender bandeja venta compra whatsapp bot"}, {"id": "web", "nombre": "tutuautomotores.com", "corto": "Web Tutu", "cat": "Marketing", "icono": "🌐", "desc": "La web pública con los autos publicados.", "url": "https://tutuautomotores.com", "palabras": "web pagina sitio"}, {"id": "showroom", "nombre": "Showroom 3D", "corto": "Showroom 3D", "cat": "Marketing", "icono": "🚘", "desc": "Recorrido 3D del galpón con autos en 360°.", "url": "", "palabras": "showroom 3d 360 galpon"}];
+const COLORES = { 'Ventas y clientes':'var(--c-ventas)', 'Club de Referidos':'var(--c-ref)', 'WhatsApp':'var(--c-wa)', 'Marketing':'var(--c-mkt)' };
+const SUGERENCIAS = ["¿Cuántos referidos nuevos hay?", "¿Cuánto hay que pagar de referidos?", "Abrí Ruthina", "Abrí Kommo"];
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm = s => String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 const envKey = id => 'URL_' + id.toUpperCase().replace(/[^A-Z0-9]/g,'_');
-const store = {
-  get(k){ try{ return sessionStorage.getItem(k) }catch(e){ return null } },
-  set(k,v){ try{ sessionStorage.setItem(k,v) }catch(e){} },
-  del(k){ try{ sessionStorage.removeItem(k) }catch(e){} }
-};
+const ss = { get:k=>{try{return sessionStorage.getItem(k)}catch(e){return null}}, set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch(e){}}, del:k=>{try{sessionStorage.removeItem(k)}catch(e){}} };
 
 let PASS = '', APPS = [], DEMO = false, estado = {}, historial = [];
 
-/* ── login ─────────────────────────────────────────────── */
+/* ── login ── */
 async function api(ruta, opt = {}) {
-  const r = await fetch(ruta, { ...opt, headers: { 'content-type':'application/json', 'x-admin-pass': PASS, ...(opt.headers||{}) } });
+  const r = await fetch(ruta, { ...opt, headers: { 'content-type':'application/json', 'x-admin-pass': PASS } });
   let data = null; try { data = await r.json() } catch(e) {}
   if (!r.ok) { const e = new Error((data && data.error) || `Error ${r.status}`); e.status = r.status; e.sinServidor = !data; throw e }
   return data;
 }
-
 async function entrar(p, silencioso) {
   PASS = p;
   try {
-    await api('/api/login', { method:'POST', body: JSON.stringify({ pass: p }) });
+    await api('/api/login', { method:'POST', body: JSON.stringify({ pass:p }) });
     APPS = await api('/api/apps');
-    if (!Array.isArray(APPS)) throw Object.assign(new Error('sin servidor'), { sinServidor: true });
+    if (!Array.isArray(APPS)) throw Object.assign(new Error('sin servidor'), { sinServidor:true });
     DEMO = false;
   } catch (e) {
-    if (e.sinServidor || e.status === 404 || e.status === 405 || e instanceof TypeError) {
-      DEMO = true; APPS = APPS_RESPALDO;           // vista previa sin servidor
-    } else {
-      PASS = ''; store.del('tutu_admin_pass');
-      if (!silencioso) $('#loginErr').textContent = e.message;
-      return;
-    }
+    if (e.sinServidor || e.status === 404 || e.status === 405 || e instanceof TypeError) { DEMO = true; APPS = APPS_RESPALDO }
+    else { PASS = ''; ss.del('tutu_admin_pass'); if (!silencioso) $('#loginErr').textContent = e.message; return }
   }
-  store.set('tutu_admin_pass', p);
+  ss.set('tutu_admin_pass', p);
   $('#login').style.display = 'none';
-  $('#app').style.display = 'block';
+  $('#app').style.display = 'flex';
   iniciar();
 }
-$('#loginForm').addEventListener('submit', e => { e.preventDefault(); $('#loginErr').textContent=''; entrar($('#pass').value) });
-$('#btnSalir').onclick = () => { store.del('tutu_admin_pass'); location.reload() };
-const guardada = store.get('tutu_admin_pass');
+$('#loginForm').addEventListener('submit', e => { e.preventDefault(); $('#loginErr').textContent = ''; entrar($('#pass').value) });
+$('#btnSalir').onclick = () => { ss.del('tutu_admin_pass'); location.reload() };
+const guardada = ss.get('tutu_admin_pass');
 if (guardada) entrar(guardada, true); else $('#pass').focus();
 
-/* ── panel ─────────────────────────────────────────────── */
+/* ── inicio ── */
 function iniciar() {
   const h = new Date().getHours();
-  $('#hola').innerHTML = `${h < 13 ? 'Buen día' : h < 20 ? 'Buenas tardes' : 'Buenas noches'}, <span>Adrián</span>`;
-  $('#fecha').textContent = new Date().toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-  $('#demoBar').style.display = DEMO ? 'block' : 'none';
-  $('#asModo').textContent = DEMO ? 'Vista previa · solo abre apps' : 'Hablale o escribile';
-  pintar();
+  $('#hola').innerHTML = `${h < 13 ? 'Buen día' : h < 20 ? 'Buenas tardes' : 'Buenas noches'}, <b>Adrián</b>`;
+  $('#demo').style.display = DEMO ? 'block' : 'none';
+  pintarApps();
+  pintarLeyenda();
+  $('#sugs').innerHTML = SUGERENCIAS.filter(s => !DEMO || /^Abr/.test(s)).map(s => `<button class="sug" type="button">${esc(s)}</button>`).join('');
+  $('#sugs').querySelectorAll('.sug').forEach(b => b.onclick = () => enviar(b.textContent));
+  subtitulo(null, DEMO ? 'Hola Adrián. Decime qué app querés abrir.' : 'Hola Adrián. Tocá la esfera y hablame, o escribime abajo.');
+  window.addEventListener('resize', ubicar);
+  ubicar();
   revisar();
-  pintarSugerencias();
-  bienvenida();
+  requestAnimationFrame(dibujar);
 }
 
-function filtradas() {
-  const q = norm($('#buscar').value.trim());
-  if (!q) return APPS;
-  return APPS.filter(a => q.split(/\s+/).every(t => norm(a.nombre+' '+a.desc+' '+a.cat+' '+(a.palabras||'')).includes(t)));
+function pintarApps() {
+  $('#apps').innerHTML = APPS.map(a => {
+    const cc = COLORES[a.cat] || 'var(--line2)';
+    const tag = a.url ? `a href="${esc(a.url)}" target="_blank" rel="noopener"` : `button type="button"`;
+    const cierre = a.url ? 'a' : 'button';
+    return `<${tag} class="app${a.url ? '' : ' sin'}" data-id="${esc(a.id)}" style="--cc:${cc}" aria-label="${esc(a.nombre)}">
+      <span class="bola">${a.icono || '•'}${a.url ? '<span class="st"></span>' : ''}</span>
+      <span class="nom">${esc(a.corto || a.nombre)}</span></${cierre}>`;
+  }).join('');
+  document.querySelectorAll('.app').forEach((el, i) => {
+    el.style.animationDelay = (-i * 0.7) + 's';
+    const a = APPS.find(x => x.id === el.dataset.id);
+    el.addEventListener('mouseenter', () => mostrarTip(el, a));
+    el.addEventListener('mouseleave', () => $('#tip').classList.remove('ver'));
+    el.addEventListener('focus', () => mostrarTip(el, a));
+    el.addEventListener('blur', () => $('#tip').classList.remove('ver'));
+    el.addEventListener('click', () => {
+      if (!a.url) subtitulo(null, `${a.nombre} todavía no tiene el link cargado. Se agrega en Railway con la variable ${envKey(a.id)}.`);
+      else pulso(a.id);
+    });
+  });
+}
+function mostrarTip(el, a) {
+  const t = $('#tip'), r = el.getBoundingClientRect(), e = $('#escena').getBoundingClientRect();
+  t.innerHTML = `<b>${esc(a.nombre)}</b>${esc(a.desc)}${a.url ? '' : `<br><span style="color:var(--acc)">Falta el link · ${envKey(a.id)}</span>`}`;
+  const arriba = r.top - e.top > e.height / 2;
+  t.style.left = (r.left - e.left + r.width / 2) + 'px';
+  t.style.top = arriba ? (r.top - e.top - 8) + 'px' : (r.bottom - e.top + 6) + 'px';
+  t.style.transform = arriba ? 'translate(-50%,-100%)' : 'translate(-50%,0)';
+  t.classList.add('ver');
+}
+function pintarLeyenda() {
+  const cats = [...new Set(APPS.map(a => a.cat))];
+  $('#leyenda').innerHTML = cats.map(c => `<span style="--cc:${COLORES[c] || 'var(--tx3)'}"><i></i>${esc(c)}</span>`).join('');
 }
 
-function pintar() {
-  const lista = filtradas();
-  const cats = [...new Set(lista.map(a => a.cat))];
-  $('#secciones').innerHTML = lista.length ? cats.map(c => `
-    <section class="cat"><h2>${esc(c)}</h2><div class="grid">
-      ${lista.filter(a => a.cat === c).map(card).join('')}
-    </div></section>`).join('') : `<div class="vacio">No hay apps que coincidan.</div>`;
-  pintarResumen();
+/* posiciones: esfera al centro, apps en óvalo alrededor */
+let C = { x:0, y:0, R:100 }, POS = {};
+function ubicar() {
+  const e = $('#escena'), w = e.clientWidth, h = e.clientHeight, movil = w < 720;
+  const cv = $('#lienzo'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = w * dpr; cv.height = h * dpr; cv.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+  C.x = w / 2; C.y = h / 2 - 10;
+  const rx = Math.max(130, Math.min(w / 2 - (movil ? 44 : 70), movil ? 999 : 470));
+  const ry = Math.max(120, Math.min(h / 2 - (movil ? 58 : 66), 300));
+  C.R = Math.max(54, Math.min(rx, ry) * (movil ? 0.42 : 0.4));
+  const n = APPS.length;
+  document.querySelectorAll('.app').forEach((el, i) => {
+    const ang = -Math.PI / 2 + (i / n) * Math.PI * 2;
+    const x = C.x + Math.cos(ang) * rx, y = C.y + Math.sin(ang) * ry;
+    el.style.left = x + 'px'; el.style.top = y + 'px';
+    POS[el.dataset.id] = { x, y };
+  });
+  const b = $('#esfera'); b.style.left = C.x + 'px'; b.style.top = C.y + 'px'; b.style.width = b.style.height = (C.R * 2.2) + 'px';
+  const es = $('#estadoEsfera'); es.style.left = C.x + 'px'; es.style.top = (C.y + C.R * 1.32) + 'px';
 }
 
-function card(a) {
-  if (!a.url) return `<div class="card sin" title="Falta cargar el link">
-      <div class="ic">${a.icono||'•'}</div><div class="nm">${esc(a.nombre)}</div>
-      <div class="ds">${esc(a.desc)}</div>
-      <div class="falta">Falta el link · <code>${envKey(a.id)}</code></div></div>`;
-  const st = estado[a.id];
-  return `<a class="card" href="${esc(a.url)}" target="_blank" rel="noopener" data-id="${esc(a.id)}" style="text-decoration:none;color:inherit">
-      <span class="st ${st||''}" title="${st==='ok'?'Responde':st==='bad'?'No responde':'Revisando…'}"></span>
-      <div class="ic">${a.icono||'•'}</div><div class="nm">${esc(a.nombre)}</div>
-      <div class="ds">${esc(a.desc)}</div></a>`;
-}
-
-function pintarResumen() {
-  const conLink = APPS.filter(a => a.url);
-  const ok = conLink.filter(a => estado[a.id] === 'ok').length;
-  const bad = conLink.filter(a => estado[a.id] === 'bad').length;
-  const sin = APPS.length - conLink.length;
-  $('#resumen').innerHTML = `
-    <div class="stat"><div class="n">${APPS.length}</div><div class="l">Apps de Tutu</div></div>
-    <div class="stat ok"><div class="n">${ok}</div><div class="l">Responden</div></div>
-    ${bad ? `<div class="stat bad"><div class="n">${bad}</div><div class="l">No responden</div></div>` : ''}
-    ${sin ? `<div class="stat warn"><div class="n">${sin}</div><div class="l">Sin link cargado</div></div>` : ''}`;
-}
-
+/* estado online de cada app */
 async function revisar() {
-  estado = {};
-  pintar();
   await Promise.all(APPS.filter(a => a.url).map(async a => {
-    const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 8000);
-    try { await fetch(a.url, { mode:'no-cors', cache:'no-store', signal: ctrl.signal }); estado[a.id] = 'ok' }
-    catch (e) { estado[a.id] = 'bad' }
+    const ctrl = new AbortController(), t = setTimeout(() => ctrl.abort(), 8000);
+    try { await fetch(a.url, { mode:'no-cors', cache:'no-store', signal:ctrl.signal }); estado[a.id] = 'ok' } catch (e) { estado[a.id] = 'bad' }
     clearTimeout(t);
-    const el = document.querySelector(`.card[data-id="${a.id}"] .st`);
-    if (el) { el.className = 'st ' + estado[a.id]; el.title = estado[a.id] === 'ok' ? 'Responde' : 'No responde' }
-    pintarResumen();
+    const st = document.querySelector(`.app[data-id="${a.id}"] .st`);
+    if (st) { st.className = 'st ' + estado[a.id]; st.parentElement.parentElement.title = estado[a.id] === 'ok' ? '' : 'No responde' }
   }));
 }
-$('#btnRevisar').onclick = revisar;
 
-$('#buscar').addEventListener('input', pintar);
-$('#buscar').addEventListener('keydown', e => {
-  if (e.key === 'Enter') { const a = filtradas().find(x => x.url); if (a) window.open(a.url, '_blank', 'noopener') }
-  if (e.key === 'Escape') { e.target.value = ''; pintar(); e.target.blur() }
-});
-document.addEventListener('keydown', e => {
-  if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); $('#buscar').focus() }
-});
+/* ═══ ESFERA DE RED NEURONAL ═══ */
+const N = 110, NODOS = [], ENLACES = [];
+for (let i = 0; i < N; i++) {             // puntos repartidos en una esfera (fibonacci)
+  const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = Math.PI * (3 - Math.sqrt(5)) * i;
+  NODOS.push({ x: Math.cos(th) * r, y, z: Math.sin(th) * r, f: Math.random() * Math.PI * 2 });
+}
+for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) {
+  const a = NODOS[i], b = NODOS[j], d = Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+  if (d < 0.36) ENLACES.push([i, j]);
+}
+let MODO = 'reposo';                       // reposo | escucha | piensa | habla
+let energia = 0, habla = 0, giroX = 0, giroY = 0, PULSOS = [];
+function pulso(id, dur = 900) { if (POS[id]) PULSOS.push({ id, t0: performance.now(), dur }) }
+function setModo(m) {
+  MODO = m;
+  const txt = { reposo: 'Tocá para hablar', escucha: 'Escuchando…', piensa: 'Pensando…', habla: 'Hablando…' }[m];
+  const el = $('#estadoEsfera'); el.textContent = txt; el.classList.toggle('vivo', m !== 'reposo');
+}
 
-/* ── asistente ─────────────────────────────────────────── */
-const chat = $('#chat'), texto = $('#texto');
+function dibujar(t) {
+  const cv = $('#lienzo'), g = cv.getContext('2d'), w = cv.clientWidth, h = cv.clientHeight;
+  g.clearRect(0, 0, w, h);
+  const s = t / 1000;
+  const objetivo = { reposo: .15, escucha: .75, piensa: 1, habla: .55 }[MODO];
+  energia += (objetivo - energia) * .05;
+  habla *= .9;
+  const vel = .0022 + energia * .014;
+  giroY += vel; giroX = Math.sin(s * .3) * .35;
+  const flot = Math.sin(s * 1.1) * 8;
+  const cx = C.x, cy = C.y + flot;
+  const respira = 1 + Math.sin(s * (MODO === 'escucha' ? 5 : 1.6)) * (.02 + energia * .035) + habla * .08;
+  const R = C.R * respira;
+
+  // conexiones hacia cada app
+  for (const id in POS) {
+    const p = POS[id], ang = Math.atan2(p.y - cy, p.x - cx);
+    const sx = cx + Math.cos(ang) * R * 1.05, sy = cy + Math.sin(ang) * R * 1.05;
+    const grad = g.createLinearGradient(sx, sy, p.x, p.y);
+    grad.addColorStop(0, `rgba(245,166,35,${.22 + energia * .2})`); grad.addColorStop(1, 'rgba(245,166,35,0)');
+    g.strokeStyle = grad; g.lineWidth = 1; g.beginPath(); g.moveTo(sx, sy); g.lineTo(p.x, p.y); g.stroke();
+    // chispa que viaja sola
+    const k = ((s * .25 + id.length * .37) % 1);
+    g.fillStyle = `rgba(255,195,92,${.5 * (1 - k)})`;
+    g.beginPath(); g.arc(sx + (p.x - sx) * k, sy + (p.y - sy) * k, 1.6, 0, 7); g.fill();
+  }
+  // pulsos (al abrir una app)
+  PULSOS = PULSOS.filter(pu => {
+    const k = (t - pu.t0) / pu.dur; if (k > 1) return false;
+    const p = POS[pu.id], e = 1 - Math.pow(1 - k, 3);
+    const x = cx + (p.x - cx) * e, y = cy + (p.y - cy) * e;
+    const rg = g.createRadialGradient(x, y, 0, x, y, 16);
+    rg.addColorStop(0, 'rgba(255,214,140,1)'); rg.addColorStop(1, 'rgba(245,166,35,0)');
+    g.fillStyle = rg; g.beginPath(); g.arc(x, y, 16, 0, 7); g.fill();
+    const el = document.querySelector(`.app[data-id="${pu.id}"]`); if (el) el.classList.toggle('activa', k > .7);
+    return true;
+  });
+
+  // halo
+  const halo = g.createRadialGradient(cx, cy, R * .2, cx, cy, R * 2.1);
+  halo.addColorStop(0, `rgba(245,166,35,${.16 + energia * .2})`);
+  halo.addColorStop(.5, `rgba(245,140,35,${.05 + energia * .07})`);
+  halo.addColorStop(1, 'rgba(245,166,35,0)');
+  g.fillStyle = halo; g.beginPath(); g.arc(cx, cy, R * 2.1, 0, 7); g.fill();
+
+  // proyectar nodos
+  const cY = Math.cos(giroY), sY = Math.sin(giroY), cX = Math.cos(giroX), sX = Math.sin(giroX);
+  const P = NODOS.map(n => {
+    const ruido = 1 + Math.sin(s * 2 + n.f) * (.015 + energia * .05);
+    let x = n.x * ruido, y = n.y * ruido, z = n.z * ruido;
+    let x1 = x * cY - z * sY, z1 = x * sY + z * cY;
+    let y1 = y * cX - z1 * sX, z2 = y * sX + z1 * cX;
+    const per = 2.6 / (2.6 + z2);
+    return { x: cx + x1 * R * per, y: cy + y1 * R * per, z: z2, p: (z2 + 1) / 2 };
+  });
+  // enlaces
+  g.lineWidth = .8;
+  for (const [i, j] of ENLACES) {
+    const a = P[i], b = P[j], prof = (2 - (a.z + b.z)) / 4;
+    const act = .5 + .5 * Math.sin(s * (1.5 + energia * 5) + i * .7);
+    g.strokeStyle = `rgba(255,${170 + act * 50 | 0},${80 + act * 60 | 0},${(.08 + prof * .35) * (.5 + energia * .7 * act)})`;
+    g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+  }
+  // nodos
+  for (let i = 0; i < N; i++) {
+    const a = P[i], frente = 1 - a.p, brillo = .5 + .5 * Math.sin(s * 3 + NODOS[i].f * 3);
+    const r = (.8 + frente * 1.9) * (1 + energia * .4 * brillo);
+    g.fillStyle = `rgba(255,${200 + brillo * 40 | 0},${140 + brillo * 80 | 0},${.25 + frente * .7})`;
+    g.beginPath(); g.arc(a.x, a.y, r, 0, 7); g.fill();
+  }
+  // núcleo
+  const nucleo = g.createRadialGradient(cx, cy, 0, cx, cy, R * .55);
+  nucleo.addColorStop(0, `rgba(255,220,160,${.25 + energia * .35 + habla * .3})`);
+  nucleo.addColorStop(1, 'rgba(245,166,35,0)');
+  g.fillStyle = nucleo; g.beginPath(); g.arc(cx, cy, R * .55, 0, 7); g.fill();
+
+  requestAnimationFrame(dibujar);
+}
+
+/* ═══ ASISTENTE ═══ */
 let hablar = true, ocupado = false;
-
-function burbuja(rol, contenido, extra = {}) {
-  const d = document.createElement('div');
-  d.className = 'msg ' + rol + (extra.err ? ' err' : '');
-  d.innerHTML = esc(contenido) + (extra.links && extra.links.length
-    ? `<div class="links">${extra.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.nombre)} ↗</a>`).join('')}</div>` : '');
-  chat.appendChild(d); chat.scrollTop = chat.scrollHeight;
-  return d;
+function subtitulo(yo, ella, extra = {}) {
+  $('#subt').innerHTML = (yo ? `<div class="yo">“${esc(yo)}”</div>` : '') +
+    `<div class="ella${extra.err ? ' err' : ''}">${esc(ella)}</div>` +
+    (extra.links && extra.links.length ? `<div class="links">${extra.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">Abrir ${esc(l.nombre)} ↗</a>`).join('')}</div>` : '');
 }
-function escribiendo() {
-  const d = document.createElement('div'); d.className = 'msg a';
-  d.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
-  chat.appendChild(d); chat.scrollTop = chat.scrollHeight; return d;
+function pintarHist() {
+  $('#histLista').innerHTML = historial.length
+    ? historial.map(m => `<div class="msg ${m.role === 'user' ? 'u' : 'a'}">${esc(m.content)}</div>`).join('')
+    : '<div class="hist-vacio">Todavía no hablaron.</div>';
+  $('#histLista').scrollTop = 1e6;
 }
-function bienvenida() {
-  chat.innerHTML = ''; historial = [];
-  burbuja('a', DEMO
-    ? 'Hola Adrián. En esta vista previa puedo abrir cualquier app: decime "abrí Ruthina" o "abrí referidos".'
-    : 'Hola Adrián. Puedo abrirte cualquier app de Tutu y contarte cómo viene el Club de Referidos. Tocá el micrófono y hablame, o escribime.');
-}
-function pintarSugerencias() {
-  $('#sugs').innerHTML = SUGERENCIAS.filter(s => !DEMO || /^Abr/.test(s))
-    .map(s => `<button class="sug">${esc(s)}</button>`).join('');
-  $('#sugs').querySelectorAll('.sug').forEach(b => b.onclick = () => enviar(b.textContent));
-}
-$('#btnLimpiar').onclick = () => { speechSynthesis && speechSynthesis.cancel(); bienvenida() };
-
-function abrir(lista) {
-  const bloqueadas = [];
-  for (const a of lista) { const w = window.open(a.url, '_blank', 'noopener'); if (!w) bloqueadas.push(a) }
-  return bloqueadas;
-}
+$('#btnHist').onclick = () => { pintarHist(); $('#hist').classList.add('open') };
+$('#btnCerrarHist').onclick = () => $('#hist').classList.remove('open');
+$('#btnNueva').onclick = () => { historial = []; pintarHist(); subtitulo(null, 'Listo, empezamos de nuevo.') };
 
 function localResponder(q) {
   const n = norm(q);
   const quiereAbrir = /\b(abr|abri|abrir|abrime|entra|entrar|ir a|anda a|mostra|mostrame|ver)\b/.test(n);
   const hits = APPS.map(a => {
-    const words = norm(a.nombre + ' ' + (a.palabras||'')).split(/[^a-z0-9]+/).filter(w => w.length > 3);
-    return { a, s: words.filter(w => n.includes(w)).length };
+    const ws = norm(a.nombre + ' ' + (a.corto||'') + ' ' + (a.palabras||'')).split(/[^a-z0-9]+/).filter(w => w.length > 3);
+    return { a, s: ws.filter(w => n.includes(w)).length };
   }).filter(x => x.s > 0).sort((x, y) => y.s - x.s);
   if (!hits.length) return { texto: 'En la vista previa solo puedo abrir apps. Decime cuál, por ejemplo "abrí Kommo".', acciones: [] };
   const a = hits[0].a;
   if (!a.url) return { texto: `${a.nombre} todavía no tiene el link cargado.`, acciones: [] };
-  return { texto: quiereAbrir ? `Te abro ${a.nombre}.` : `¿Querés que abra ${a.nombre}? Te dejo el link.`, acciones: [{ tipo:'abrir', id:a.id, url:a.url, nombre:a.nombre, auto: quiereAbrir }] };
+  return { texto: quiereAbrir ? `Te abro ${a.nombre}.` : `¿Querés que abra ${a.nombre}?`, acciones: [{ tipo:'abrir', id:a.id, url:a.url, nombre:a.nombre, auto: quiereAbrir }] };
 }
 
 async function enviar(q) {
-  q = (q ?? texto.value).trim();
+  q = (q ?? $('#texto').value).trim();
   if (!q || ocupado) return;
-  texto.value = ''; ajustar(); $('#btnEnviar').disabled = true;
-  burbuja('u', q); historial.push({ role:'user', content:q });
-  ocupado = true; const t = escribiendo();
+  $('#texto').value = ''; $('#btnEnviar').disabled = true;
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  historial.push({ role:'user', content:q });
+  subtitulo(q, '…');
+  ocupado = true; setModo('piensa');
   let r;
-  try {
-    r = DEMO ? localResponder(q) : await api('/api/asistente', { method:'POST', body: JSON.stringify({ mensajes: historial }) });
-  } catch (e) {
-    t.remove(); ocupado = false; historial.pop();
-    if (e.status === 401) { store.del('tutu_admin_pass'); location.reload(); return }
-    burbuja('a', 'No pude responder: ' + e.message, { err:true }); return;
+  try { r = DEMO ? localResponder(q) : await api('/api/asistente', { method:'POST', body: JSON.stringify({ mensajes: historial }) }) }
+  catch (e) {
+    ocupado = false; setModo('reposo'); historial.pop();
+    if (e.status === 401) { ss.del('tutu_admin_pass'); location.reload(); return }
+    subtitulo(q, 'No pude responder: ' + e.message, { err:true }); return;
   }
-  t.remove(); ocupado = false;
+  ocupado = false;
   const acciones = (r.acciones || []).filter(a => a.tipo === 'abrir' && a.url);
-  const abrirAuto = acciones.filter(a => a.auto !== false);
-  const bloqueadas = abrirAuto.length ? abrir(abrirAuto) : [];
-  let msg = r.texto || 'Listo.';
-  if (bloqueadas.length) msg += '\n\nEl navegador frenó la pestaña nueva: tocá el botón para abrirla.';
-  burbuja('a', msg, { links: acciones });
-  historial.push({ role:'assistant', content: r.texto || 'Listo.' });
-  decir(r.texto);
+  const bloqueadas = [];
+  for (const a of acciones) {
+    pulso(a.id, 1100);
+    if (a.auto !== false) { const w = window.open(a.url, '_blank', 'noopener'); if (!w) bloqueadas.push(a) }
+  }
+  const texto = r.texto || 'Listo.';
+  const links = acciones.filter(a => a.auto === false || bloqueadas.includes(a));
+  subtitulo(q, texto, { links });
+  historial.push({ role:'assistant', content: texto });
+  if ($('#hist').classList.contains('open')) pintarHist();
+  decir(texto);
 }
 
-/* voz: hablar (lectura) */
+/* voz: lectura */
 let vozES = null;
-function elegirVoz() {
-  const vs = speechSynthesis.getVoices();
-  vozES = vs.find(v => /es-AR/i.test(v.lang)) || vs.find(v => /es-(US|419|MX)/i.test(v.lang)) || vs.find(v => /^es/i.test(v.lang)) || null;
-}
+function elegirVoz() { const vs = speechSynthesis.getVoices(); vozES = vs.find(v => /es-AR/i.test(v.lang)) || vs.find(v => /es-(US|419|MX)/i.test(v.lang)) || vs.find(v => /^es/i.test(v.lang)) || null }
 if ('speechSynthesis' in window) { elegirVoz(); speechSynthesis.onvoiceschanged = elegirVoz }
 function decir(t) {
-  if (!hablar || !t || !('speechSynthesis' in window)) return;
+  if (!hablar || !t || !('speechSynthesis' in window)) { setModo('reposo'); return }
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(t.replace(/[*_#`>]/g, '').replace(/\$\s?([\d.]+)/g, '$1 pesos'));
   u.lang = vozES ? vozES.lang : 'es-AR'; if (vozES) u.voice = vozES; u.rate = 1.05;
+  u.onstart = () => setModo('habla');
+  u.onboundary = () => { habla = 1 };
+  u.onend = u.onerror = () => { if (MODO === 'habla') setModo('reposo') };
   speechSynthesis.speak(u);
+  setTimeout(() => { if (MODO === 'piensa') setModo('reposo') }, 1500);
 }
 $('#btnVoz').onclick = e => {
   hablar = !hablar;
   e.currentTarget.classList.toggle('on', hablar);
   e.currentTarget.setAttribute('aria-pressed', hablar);
-  if (!hablar && 'speechSynthesis' in window) speechSynthesis.cancel();
+  $('#vozTxt').textContent = hablar ? 'Voz activada' : 'Voz apagada';
+  if (!hablar && 'speechSynthesis' in window) { speechSynthesis.cancel(); setModo('reposo') }
 };
+$('#btnVoz').classList.add('on');
 
-/* voz: escuchar (dictado) */
+/* voz: dictado */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let rec = null, grabando = false, finalTxt = '';
 if (SR) {
   rec = new SR(); rec.lang = 'es-AR'; rec.interimResults = true; rec.continuous = false;
-  rec.onstart = () => { grabando = true; finalTxt = ''; $('#btnMic').classList.add('rec'); $('#vozEstado').textContent = 'Escuchando…' };
+  rec.onstart = () => { grabando = true; finalTxt = ''; $('#btnMic').classList.add('rec'); setModo('escucha'); subtitulo(null, 'Te escucho…') };
   rec.onresult = e => {
-    let interino = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) finalTxt += e.results[i][0].transcript; else interino += e.results[i][0].transcript;
-    }
-    texto.value = (finalTxt + ' ' + interino).trim(); ajustar();
+    let inter = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) { if (e.results[i].isFinal) finalTxt += e.results[i][0].transcript; else inter += e.results[i][0].transcript }
+    const v = (finalTxt + ' ' + inter).trim(); $('#texto').value = v; $('#btnEnviar').disabled = !v; habla = .6;
+    subtitulo(null, v || 'Te escucho…');
   };
   rec.onerror = e => {
-    $('#vozEstado').textContent = e.error === 'not-allowed' ? 'Hay que permitir el micrófono en el navegador.'
-      : e.error === 'no-speech' ? 'No escuché nada, probá de nuevo.' : 'Error de micrófono: ' + e.error;
+    subtitulo(null, e.error === 'not-allowed' ? 'Hay que permitir el micrófono en el navegador.' : e.error === 'no-speech' ? 'No escuché nada, tocá la esfera y probá de nuevo.' : 'Error de micrófono: ' + e.error, { err: e.error !== 'no-speech' });
   };
   rec.onend = () => {
     grabando = false; $('#btnMic').classList.remove('rec');
-    if ($('#vozEstado').textContent === 'Escuchando…') $('#vozEstado').textContent = '';
-    if (texto.value.trim()) enviar();
+    if ($('#texto').value.trim()) enviar(); else setModo('reposo');
   };
 }
-$('#btnMic').onclick = () => {
-  if (!rec) { $('#vozEstado').textContent = 'Este navegador no permite dictado. Usá Chrome o Edge.'; return }
+function microfono() {
+  if (!rec) { subtitulo(null, 'Este navegador no permite dictado. Usá Chrome o Edge, o escribime abajo.', { err:true }); return }
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   if (grabando) rec.stop(); else { try { rec.start() } catch (e) {} }
-};
+}
+$('#btnMic').onclick = microfono;
+$('#esfera').onclick = microfono;
 
-function ajustar() { texto.style.height = 'auto'; texto.style.height = Math.min(texto.scrollHeight, 120) + 'px'; $('#btnEnviar').disabled = !texto.value.trim() }
-texto.addEventListener('input', ajustar);
-texto.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar() } });
-$('#btnEnviar').onclick = () => enviar();
-
-/* móvil */
-$('#fab').onclick = () => { $('#asistente').classList.add('open'); setTimeout(() => texto.focus(), 300) };
-$('#btnCerrarAs').onclick = () => $('#asistente').classList.remove('open');
+$('#texto').addEventListener('input', e => $('#btnEnviar').disabled = !e.target.value.trim());
+$('#barra').addEventListener('submit', e => { e.preventDefault(); enviar() });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') $('#hist').classList.remove('open');
+  if (e.code === 'Space' && e.ctrlKey) { e.preventDefault(); microfono() }
+});
 </script>
 </body>
 </html>

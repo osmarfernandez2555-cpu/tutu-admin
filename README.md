@@ -18,8 +18,7 @@ Panel con acceso a todas las apps de Tutu Automotores y un asistente de texto y 
 
 Las apps sin link aparecen punteadas con el nombre de la variable. Agregala en Railway → Variables y redeploy:
 
-- `URL_PANEL_APP_VENTAS`, `URL_TWENTY`, `URL_CONSULTA_CREDITOS`, `URL_CALCULADOR`
-- `URL_REVENTA`, `URL_PUBLICADOR`, `URL_RESENAS`, `URL_SHOWROOM`, `URL_TUTU_MATCH`, `URL_GALPON`
+- `URL_SHOWROOM` (Showroom 3D)
 
 También se puede cambiar cualquier link existente igual (ej. `URL_RUTHINA`), o editar `apps.json` para sumar apps nuevas.
 

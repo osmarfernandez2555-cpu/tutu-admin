@@ -1,89 +1,41 @@
 [
-  { "id": "ruthina", "nombre": "Ruthina", "cat": "Ventas y clientes", "icono": "🤖",
-    "desc": "Asistente de ventas: stock, clientes, comparador de precios, presupuestos y libros de cierre.",
-    "url": "https://osmarfernandez2555-cpu.github.io/RUTHINA", "palabras": "ruthina stock clientes presupuesto comparador libros cierre" },
+  { "id": "ruthina", "nombre": "Ruthina", "corto": "Ruthina", "cat": "Ventas y clientes", "icono": "🤖",
+    "desc": "Asistente de ventas: stock, clientes, comparador, presupuestos, consulta de créditos y libros de cierre.",
+    "url": "https://osmarfernandez2555-cpu.github.io/RUTHINA", "palabras": "ruthina stock clientes presupuesto comparador libros cierre creditos calculador" },
 
-  { "id": "appsheet-app", "nombre": "AppSheet · TUTU - APP", "cat": "Ventas y clientes", "icono": "📱",
+  { "id": "appsheet-app", "nombre": "AppSheet · TUTU - APP", "corto": "TUTU APP", "cat": "Ventas y clientes", "icono": "📱",
     "desc": "App original de AppSheet: calculador histórico, compras, peritaje, entregas.",
     "url": "https://www.appsheet.com/home/apps", "palabras": "appsheet tutu app calculador historico compras peritaje entregas" },
 
-  { "id": "appsheet-ventas", "nombre": "AppSheet · TUTU - VENTAS", "cat": "Ventas y clientes", "icono": "📊",
+  { "id": "appsheet-ventas", "nombre": "AppSheet · TUTU - VENTAS", "corto": "TUTU VENTAS", "cat": "Ventas y clientes", "icono": "📊",
     "desc": "App original de AppSheet de ventas.",
     "url": "https://www.appsheet.com/home/apps", "palabras": "appsheet ventas" },
 
-  { "id": "panel-app-ventas", "nombre": "Panel App Ventas", "cat": "Ventas y clientes", "icono": "🗂️",
-    "desc": "Copia web de TUTU - APP y TUTU - VENTAS en Railway.",
-    "url": "", "palabras": "panel app ventas copia appsheet" },
-
-  { "id": "kommo", "nombre": "Kommo CRM", "cat": "Ventas y clientes", "icono": "💬",
+  { "id": "kommo", "nombre": "Kommo CRM", "corto": "Kommo", "cat": "Ventas y clientes", "icono": "💬",
     "desc": "Leads, conversaciones y embudo de ventas.",
     "url": "https://admtutuautomotores.kommo.com", "palabras": "kommo crm leads embudo" },
 
-  { "id": "twenty", "nombre": "CRM Twenty", "cat": "Ventas y clientes", "icono": "📇",
-    "desc": "CRM propio (tutu-crm) con leads y conversaciones de WhatsApp.",
-    "url": "", "palabras": "twenty crm propio tutu-crm" },
-
-  { "id": "referidos-admin", "nombre": "Club de Referidos · Panel", "cat": "Club de Referidos", "icono": "🔑",
+  { "id": "referidos-admin", "nombre": "Club de Referidos · Panel", "corto": "Referidos", "cat": "Club de Referidos", "icono": "🔑",
     "desc": "Panel interno: referidos por estado, vendedor asignado, total a pagar y exportar a Excel.",
     "url": "https://tutu-referidos.up.railway.app/referidos/admin", "palabras": "referidos panel admin pagar premio" },
 
-  { "id": "referidos-landing", "nombre": "Club de Referidos · Landing", "cat": "Club de Referidos", "icono": "🎁",
+  { "id": "referidos-landing", "nombre": "Club de Referidos · Landing", "corto": "Landing", "cat": "Club de Referidos", "icono": "🎁",
     "desc": "La página pública para cargar un referido ($100.000 por venta).",
     "url": "https://tutu-referidos.up.railway.app/referidos", "palabras": "referidos landing formulario cargar" },
 
-  { "id": "referidos-bases", "nombre": "Club de Referidos · Bases", "cat": "Club de Referidos", "icono": "📜",
+  { "id": "referidos-bases", "nombre": "Club de Referidos · Bases", "corto": "Bases", "cat": "Club de Referidos", "icono": "📜",
     "desc": "Bases y condiciones de la campaña (12/11 al 31/12/2026).",
     "url": "https://tutu-referidos.up.railway.app/referidos/bases", "palabras": "bases condiciones tyc referidos" },
 
-  { "id": "consulta-creditos", "nombre": "Consulta Créditos", "cat": "Créditos", "icono": "🏦",
-    "desc": "Calificación por CUIT en Bancor, Nación, Galicia, decreditos y Santander.",
-    "url": "", "palabras": "consulta creditos bancor nacion galicia santander decreditos cuit calificar" },
-
-  { "id": "calculador", "nombre": "Calculador de Créditos", "cat": "Créditos", "icono": "🧮",
-    "desc": "Cuotas por banco, mismas fórmulas que el Excel CALCULADOR del mes.",
-    "url": "", "palabras": "calculador cuotas credito bancos" },
-
-  { "id": "tutusita", "nombre": "Tutusita · Panel de Ventas", "cat": "Bots de WhatsApp", "icono": "🟢",
-    "desc": "Bot de WhatsApp con verificación BCRA y transcripciones de leads.",
-    "url": "https://tutu-chat-agent-production.up.railway.app", "palabras": "tutusita bot whatsapp bcra leads" },
-
-  { "id": "wapp", "nombre": "WApp Sender · Bandejas", "cat": "Bots de WhatsApp", "icono": "📨",
+  { "id": "wapp", "nombre": "WApp Sender · Bandejas", "corto": "WApp Sender", "cat": "WhatsApp", "icono": "📨",
     "desc": "Bandejas de compra y venta del bot de WhatsApp en producción.",
-    "url": "https://tutu-wapp-production.up.railway.app", "palabras": "wapp sender bandeja venta compra whatsapp" },
+    "url": "https://tutu-wapp-production.up.railway.app", "palabras": "wapp sender bandeja venta compra whatsapp bot" },
 
-  { "id": "reventa", "nombre": "Bot de Reventa", "cat": "Bots de WhatsApp", "icono": "🔁",
-    "desc": "Autos leídos de grupos de reventa, con exportación CSV.",
-    "url": "", "palabras": "reventa grupos bot autos" },
-
-  { "id": "publicador", "nombre": "Publicador Marketplace", "cat": "Marketing", "icono": "🛒",
-    "desc": "Publicación masiva de autos en Facebook Marketplace, en tandas de 10.",
-    "url": "", "palabras": "publicador marketplace facebook publicar" },
-
-  { "id": "resenas", "nombre": "Reseñas Tutu", "cat": "Marketing", "icono": "⭐",
-    "desc": "Reseñas de Google convertidas en historias de Instagram con la plantilla de Tutu.",
-    "url": "", "palabras": "reseñas resenas google historias instagram" },
-
-  { "id": "web", "nombre": "tutuautomotores.com", "cat": "Marketing", "icono": "🌐",
+  { "id": "web", "nombre": "tutuautomotores.com", "corto": "Web Tutu", "cat": "Marketing", "icono": "🌐",
     "desc": "La web pública con los autos publicados.",
     "url": "https://tutuautomotores.com", "palabras": "web pagina sitio" },
 
-  { "id": "showroom", "nombre": "Showroom 3D", "cat": "Marketing", "icono": "🚘",
+  { "id": "showroom", "nombre": "Showroom 3D", "corto": "Showroom 3D", "cat": "Marketing", "icono": "🚘",
     "desc": "Recorrido 3D del galpón con autos en 360°.",
-    "url": "", "palabras": "showroom 3d 360" },
-
-  { "id": "tutu-match", "nombre": "Tutu Match", "cat": "Marketing", "icono": "❤️",
-    "desc": "App estilo Tinder para publicar autos y hacer match con compradores.",
-    "url": "", "palabras": "tutu match tinder" },
-
-  { "id": "galpon", "nombre": "Galpón 3D · Agentes", "cat": "Gestión", "icono": "🏭",
-    "desc": "Oficinas por área con un agente por responsable que informa desde los datos reales.",
-    "url": "", "palabras": "galpon agentes areas informes" },
-
-  { "id": "railway", "nombre": "Railway", "cat": "Sistemas", "icono": "🚂",
-    "desc": "Donde corren los servidores y bases de datos de todas las apps.",
-    "url": "https://railway.app/dashboard", "palabras": "railway servidores deploy" },
-
-  { "id": "github", "nombre": "GitHub", "cat": "Sistemas", "icono": "🐙",
-    "desc": "Código de todas las apps.",
-    "url": "https://github.com/osmarfernandez2555-cpu", "palabras": "github codigo repos" }
+    "url": "", "palabras": "showroom 3d 360 galpon" }
 ]
