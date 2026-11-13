@@ -18,7 +18,7 @@ Panel con acceso a todas las apps de Tutu Automotores y un asistente de texto y 
 
 Las apps sin link aparecen punteadas con el nombre de la variable. Agregala en Railway → Variables y redeploy:
 
-- `URL_SHOWROOM` (Showroom 3D)
+- Por ahora todas las apps tienen link.
 
 También se puede cambiar cualquier link existente igual (ej. `URL_RUTHINA`), o editar `apps.json` para sumar apps nuevas.
 

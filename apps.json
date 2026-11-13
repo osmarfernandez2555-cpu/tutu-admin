@@ -1,41 +1,102 @@
 [
-  { "id": "ruthina", "nombre": "Ruthina", "corto": "Ruthina", "cat": "Ventas y clientes", "icono": "🤖",
+  {
+    "id": "ruthina",
+    "nombre": "Ruthina",
+    "corto": "Ruthina",
+    "cat": "Ventas y clientes",
+    "icono": "🤖",
     "desc": "Asistente de ventas: stock, clientes, comparador, presupuestos, consulta de créditos y libros de cierre.",
-    "url": "https://osmarfernandez2555-cpu.github.io/RUTHINA", "palabras": "ruthina stock clientes presupuesto comparador libros cierre creditos calculador" },
-
-  { "id": "appsheet-app", "nombre": "AppSheet · TUTU - APP", "corto": "TUTU APP", "cat": "Ventas y clientes", "icono": "📱",
+    "url": "https://osmarfernandez2555-cpu.github.io/RUTHINA",
+    "palabras": "ruthina stock clientes presupuesto comparador libros cierre creditos calculador"
+  },
+  {
+    "id": "appsheet-app",
+    "nombre": "AppSheet · TUTU - APP",
+    "corto": "TUTU APP",
+    "cat": "Ventas y clientes",
+    "icono": "📱",
     "desc": "App original de AppSheet: calculador histórico, compras, peritaje, entregas.",
-    "url": "https://www.appsheet.com/home/apps", "palabras": "appsheet tutu app calculador historico compras peritaje entregas" },
-
-  { "id": "appsheet-ventas", "nombre": "AppSheet · TUTU - VENTAS", "corto": "TUTU VENTAS", "cat": "Ventas y clientes", "icono": "📊",
+    "url": "https://www.appsheet.com/home/apps",
+    "palabras": "appsheet tutu app calculador historico compras peritaje entregas"
+  },
+  {
+    "id": "appsheet-ventas",
+    "nombre": "AppSheet · TUTU - VENTAS",
+    "corto": "TUTU VENTAS",
+    "cat": "Ventas y clientes",
+    "icono": "📊",
     "desc": "App original de AppSheet de ventas.",
-    "url": "https://www.appsheet.com/home/apps", "palabras": "appsheet ventas" },
-
-  { "id": "kommo", "nombre": "Kommo CRM", "corto": "Kommo", "cat": "Ventas y clientes", "icono": "💬",
+    "url": "https://www.appsheet.com/home/apps",
+    "palabras": "appsheet ventas"
+  },
+  {
+    "id": "kommo",
+    "nombre": "Kommo CRM",
+    "corto": "Kommo",
+    "cat": "Ventas y clientes",
+    "icono": "💬",
     "desc": "Leads, conversaciones y embudo de ventas.",
-    "url": "https://admtutuautomotores.kommo.com", "palabras": "kommo crm leads embudo" },
-
-  { "id": "referidos-admin", "nombre": "Club de Referidos · Panel", "corto": "Referidos", "cat": "Club de Referidos", "icono": "🔑",
+    "url": "https://admtutuautomotores.kommo.com",
+    "palabras": "kommo crm leads embudo"
+  },
+  {
+    "id": "referidos-admin",
+    "nombre": "Club de Referidos · Panel",
+    "corto": "Referidos",
+    "cat": "Club de Referidos",
+    "icono": "🔑",
     "desc": "Panel interno: referidos por estado, vendedor asignado, total a pagar y exportar a Excel.",
-    "url": "https://tutu-referidos.up.railway.app/referidos/admin", "palabras": "referidos panel admin pagar premio" },
-
-  { "id": "referidos-landing", "nombre": "Club de Referidos · Landing", "corto": "Landing", "cat": "Club de Referidos", "icono": "🎁",
+    "url": "https://tutu-referidos.up.railway.app/referidos/admin",
+    "palabras": "referidos panel admin pagar premio"
+  },
+  {
+    "id": "referidos-landing",
+    "nombre": "Club de Referidos · Landing",
+    "corto": "Landing",
+    "cat": "Club de Referidos",
+    "icono": "🎁",
     "desc": "La página pública para cargar un referido ($100.000 por venta).",
-    "url": "https://tutu-referidos.up.railway.app/referidos", "palabras": "referidos landing formulario cargar" },
-
-  { "id": "referidos-bases", "nombre": "Club de Referidos · Bases", "corto": "Bases", "cat": "Club de Referidos", "icono": "📜",
+    "url": "https://tutu-referidos.up.railway.app/referidos",
+    "palabras": "referidos landing formulario cargar"
+  },
+  {
+    "id": "referidos-bases",
+    "nombre": "Club de Referidos · Bases",
+    "corto": "Bases",
+    "cat": "Club de Referidos",
+    "icono": "📜",
     "desc": "Bases y condiciones de la campaña (12/11 al 31/12/2026).",
-    "url": "https://tutu-referidos.up.railway.app/referidos/bases", "palabras": "bases condiciones tyc referidos" },
-
-  { "id": "wapp", "nombre": "WApp Sender · Bandejas", "corto": "WApp Sender", "cat": "WhatsApp", "icono": "📨",
+    "url": "https://tutu-referidos.up.railway.app/referidos/bases",
+    "palabras": "bases condiciones tyc referidos"
+  },
+  {
+    "id": "wapp",
+    "nombre": "WApp Sender · Bandejas",
+    "corto": "WApp Sender",
+    "cat": "WhatsApp",
+    "icono": "📨",
     "desc": "Bandejas de compra y venta del bot de WhatsApp en producción.",
-    "url": "https://tutu-wapp-production.up.railway.app", "palabras": "wapp sender bandeja venta compra whatsapp bot" },
-
-  { "id": "web", "nombre": "tutuautomotores.com", "corto": "Web Tutu", "cat": "Marketing", "icono": "🌐",
+    "url": "https://tutu-wapp-production.up.railway.app",
+    "palabras": "wapp sender bandeja venta compra whatsapp bot"
+  },
+  {
+    "id": "web",
+    "nombre": "tutuautomotores.com",
+    "corto": "Web Tutu",
+    "cat": "Marketing",
+    "icono": "🌐",
     "desc": "La web pública con los autos publicados.",
-    "url": "https://tutuautomotores.com", "palabras": "web pagina sitio" },
-
-  { "id": "showroom", "nombre": "Showroom 3D", "corto": "Showroom 3D", "cat": "Marketing", "icono": "🚘",
+    "url": "https://tutuautomotores.com",
+    "palabras": "web pagina sitio"
+  },
+  {
+    "id": "showroom",
+    "nombre": "Showroom 3D",
+    "corto": "Showroom 3D",
+    "cat": "Marketing",
+    "icono": "🚘",
     "desc": "Recorrido 3D del galpón con autos en 360°.",
-    "url": "", "palabras": "showroom 3d 360 galpon" }
+    "url": "https://osmarfernandez2555-cpu.github.io/pagina-tutuautomotores/",
+    "palabras": "showroom 3d 360 galpon"
+  }
 ]
