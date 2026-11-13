@@ -1,0 +1,9 @@
+{
+  "name": "tutu-admin",
+  "version": "1.0.0",
+  "description": "Panel de administración de Adrián con accesos a todas las apps de Tutu Automotores y asistente de texto y voz",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": "20.x" },
+  "dependencies": { "express": "^4.21.2" }
+}

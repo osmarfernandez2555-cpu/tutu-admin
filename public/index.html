@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tutu Admin · Panel de Adrián</title>
+<meta name="theme-color" content="#0d0d0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d0d; --panel:#151515; --card:#1a1a1a; --card2:#202020;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --tx:#f2f2f2; --tx2:#a8a8a8; --tx3:#6f6f6f;
+    --acc:#f5a623; --acc2:#ffbf4d; --accbg:rgba(245,166,35,.1);
+    --ok:#3ecf8e; --bad:#ff6b6b;
+    --r:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--tx);font-family:'Barlow',system-ui,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  input,textarea{font:inherit;color:inherit}
+  .cond{font-family:'Barlow Condensed','Arial Narrow',sans-serif}
+  :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+
+  /* ── login ── */
+  #login{position:fixed;inset:0;display:grid;place-items:center;padding:24px;
+    background:radial-gradient(900px 500px at 50% -10%,rgba(245,166,35,.13),transparent 70%),var(--bg);z-index:50}
+  .login-box{width:100%;max-width:360px;text-align:center}
+  .logo{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:900;font-size:56px;letter-spacing:.02em;line-height:1}
+  .logo b{color:var(--acc)}
+  .login-sub{color:var(--tx2);font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin:8px 0 34px}
+  .field{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:14px 16px;font-size:16px;outline:none;transition:border-color .15s}
+  .field:focus{border-color:var(--acc)}
+  .btn-acc{width:100%;margin-top:12px;background:var(--acc);color:#111;border-radius:12px;padding:14px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.08em;text-transform:uppercase;transition:background .15s,transform .1s}
+  .btn-acc:hover{background:var(--acc2)} .btn-acc:active{transform:scale(.98)}
+  #loginErr{color:var(--bad);font-size:13px;min-height:20px;margin-top:12px}
+
+  /* ── layout ── */
+  #app{display:none;height:100%}
+  .shell{display:grid;grid-template-columns:1fr 400px;height:100%}
+  main{overflow-y:auto;padding:28px 36px 60px}
+  aside{border-left:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;min-height:0}
+
+  header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+  .brand{display:flex;align-items:baseline;gap:14px}
+  .brand .logo{font-size:34px}
+  .brand .tag{color:var(--tx3);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+  .hola{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:40px;line-height:1.05;margin-top:16px}
+  .hola span{color:var(--acc)}
+  .fecha{color:var(--tx2);font-size:14px;margin-top:4px;text-transform:capitalize}
+  .top-actions{display:flex;gap:8px;align-items:center}
+  .chip-btn{border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--tx2);transition:all .15s}
+  .chip-btn:hover{color:var(--tx);border-color:var(--tx3)}
+
+  .demo-bar{display:none;background:var(--accbg);border:1px solid rgba(245,166,35,.35);color:var(--acc2);border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:20px}
+
+  .search{position:relative;margin-bottom:28px}
+  .search input{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:14px;padding:15px 16px 15px 48px;font-size:16px;outline:none}
+  .search input:focus{border-color:var(--acc)}
+  .search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--tx3)}
+  .search kbd{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:inherit;font-size:12px;color:var(--tx3);border:1px solid var(--line2);border-radius:6px;padding:2px 7px}
+
+  .resumen{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;min-width:130px}
+  .stat .n{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:28px;line-height:1}
+  .stat .l{font-size:12px;color:var(--tx2);margin-top:4px}
+  .stat.ok .n{color:var(--ok)} .stat.bad .n{color:var(--bad)} .stat.warn .n{color:var(--acc)}
+
+  section.cat{margin-bottom:30px}
+  .cat h2{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx2);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .cat h2::after{content:"";flex:1;height:1px;background:var(--line)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+
+  .card{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;min-height:132px;transition:border-color .15s,background .15s,transform .15s}
+  .card:hover{border-color:rgba(245,166,35,.5);background:var(--card2);transform:translateY(-2px)}
+  .card .ic{font-size:22px;width:40px;height:40px;border-radius:10px;background:var(--bg);display:grid;place-items:center;border:1px solid var(--line)}
+  .card .nm{font-weight:600;font-size:15.5px;line-height:1.25;padding-right:22px}
+  .card .ds{font-size:13px;color:var(--tx2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .st{position:absolute;top:16px;right:16px;width:9px;height:9px;border-radius:50%;background:var(--tx3)}
+  .card .st.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(62,207,142,.14)}
+  .card .st.bad{background:var(--bad);box-shadow:0 0 0 4px rgba(255,107,107,.14)}
+  .card.sin{opacity:.62;border-style:dashed}
+  .card.sin:hover{transform:none}
+  .card .falta{font-size:12px;color:var(--acc);margin-top:auto}
+  .card .falta code{font-size:11px;color:var(--tx3)}
+  .vacio{color:var(--tx2);padding:30px 0;text-align:center}
+
+  /* ── asistente ── */
+  .as-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .as-title{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase}
+  .as-title small{display:block;font-family:'Barlow';font-weight:500;font-size:12px;letter-spacing:0;text-transform:none;color:var(--tx2)}
+  .as-tools{display:flex;gap:6px}
+  .ico-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--tx2);transition:all .15s}
+  .ico-btn:hover{color:var(--tx);border-color:var(--tx3)}
+  .ico-btn.on{color:#111;background:var(--acc);border-color:var(--acc)}
+  .as-close{display:none}
+
+  #chat{flex:1;overflow-y:auto;padding:18px 18px 8px;display:flex;flex-direction:column;gap:12px;min-height:0}
+  .msg{max-width:88%;padding:11px 14px;border-radius:14px;font-size:14.5px;white-space:pre-wrap;word-wrap:break-word}
+  .msg.u{align-self:flex-end;background:var(--acc);color:#111;border-bottom-right-radius:4px}
+  .msg.a{align-self:flex-start;background:var(--card2);border:1px solid var(--line);border-bottom-left-radius:4px}
+  .msg.err{border-color:rgba(255,107,107,.4);color:#ffb3b3}
+  .msg .links{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .msg .links a{font-size:13px;color:var(--acc);text-decoration:none;border:1px solid rgba(245,166,35,.4);border-radius:999px;padding:4px 10px}
+  .msg .links a:hover{background:var(--accbg)}
+  .typing{display:inline-flex;gap:4px;padding:4px 2px}
+  .typing i{width:6px;height:6px;border-radius:50%;background:var(--tx3);animation:b 1s infinite}
+  .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+  @keyframes b{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+  .sugs{display:flex;flex-wrap:wrap;gap:6px;padding:4px 18px 10px}
+  .sug{font-size:12.5px;color:var(--tx2);border:1px solid var(--line2);border-radius:999px;padding:6px 11px;transition:all .15s}
+  .sug:hover{color:var(--tx);border-color:var(--acc)}
+
+  .composer{padding:12px 14px 16px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end}
+  .composer textarea{flex:1;resize:none;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:11px 13px;font-size:15px;max-height:120px;outline:none;line-height:1.35}
+  .composer textarea:focus{border-color:var(--acc)}
+  .mic{width:46px;height:46px;border-radius:50%;background:var(--card2);border:1px solid var(--line2);display:grid;place-items:center;flex:none;transition:all .15s;position:relative}
+  .mic:hover{border-color:var(--acc);color:var(--acc)}
+  .mic.rec{background:var(--bad);border-color:var(--bad);color:#fff}
+  .mic.rec::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--bad);animation:p 1.2s infinite}
+  @keyframes p{0%{opacity:.8;transform:scale(.9)}100%{opacity:0;transform:scale(1.25)}}
+  .send{width:46px;height:46px;border-radius:50%;background:var(--acc);color:#111;display:grid;place-items:center;flex:none}
+  .send:disabled{opacity:.4;cursor:default}
+  .voz-estado{font-size:12px;color:var(--tx2);padding:0 18px 4px;min-height:18px}
+
+  .fab{display:none}
+
+  /* ── responsive ── */
+  @media (max-width:980px){
+    .shell{grid-template-columns:1fr}
+    main{padding:20px 16px 110px}
+    .hola{font-size:32px}
+    aside{position:fixed;inset:0;z-index:40;transform:translateY(100%);transition:transform .28s ease;border-left:0}
+    aside.open{transform:none}
+    .as-close{display:grid}
+    .fab{display:flex;position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;align-items:center;gap:8px;background:var(--acc);color:#111;border-radius:999px;padding:14px 20px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:16px;letter-spacing:.06em;text-transform:uppercase;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+    .card{min-height:118px}
+    .search kbd{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <form class="login-box" id="loginForm" autocomplete="on">
+    <div class="logo">TUTU<b>.</b></div>
+    <div class="login-sub">Panel de administración</div>
+    <input class="field" id="pass" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+    <button class="btn-acc" type="submit">Entrar</button>
+    <div id="loginErr" role="alert"></div>
+  </form>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="shell">
+    <main>
+      <header class="top">
+        <div>
+          <div class="brand"><div class="logo">TUTU<b>.</b></div><div class="tag">Admin</div></div>
+          <h1 class="hola" id="hola">Hola, <span>Adrián</span></h1>
+          <div class="fecha" id="fecha"></div>
+        </div>
+        <div class="top-actions">
+          <button class="chip-btn" id="btnRevisar" title="Volver a revisar qué apps responden">↻ Revisar estado</button>
+          <button class="chip-btn" id="btnSalir">Salir</button>
+        </div>
+      </header>
+
+      <div class="demo-bar" id="demoBar">Vista previa: los links funcionan, pero el asistente con IA y los datos de referidos se activan cuando el panel corre en Railway.</div>
+
+      <div class="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="buscar" type="search" placeholder="Buscar una app… (Enter abre la primera)" autocomplete="off">
+        <kbd>/</kbd>
+      </div>
+
+      <div class="resumen" id="resumen"></div>
+      <div id="secciones"></div>
+    </main>
+
+    <aside id="asistente" aria-label="Asistente">
+      <div class="as-head">
+        <div class="as-title">Asistente<small id="asModo">Hablale o escribile</small></div>
+        <div class="as-tools">
+          <button class="ico-btn on" id="btnVoz" title="Leer respuestas en voz alta" aria-pressed="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+          </button>
+          <button class="ico-btn" id="btnLimpiar" title="Nueva conversación">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+          <button class="ico-btn as-close" id="btnCerrarAs" title="Cerrar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="chat" aria-live="polite"></div>
+      <div class="sugs" id="sugs"></div>
+      <div class="voz-estado" id="vozEstado"></div>
+      <div class="composer">
+        <button class="mic" id="btnMic" title="Hablar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
+        </button>
+        <textarea id="texto" rows="1" placeholder="Preguntá o pedí que abra una app…"></textarea>
+        <button class="send" id="btnEnviar" title="Enviar" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </aside>
+  </div>
+  <button class="fab" id="fab">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
+    Asistente
+  </button>
+</div>
+
+<script>
+// Lista de respaldo para la vista previa (en Railway se usa apps.json del servidor)
+const APPS_RESPALDO = [
+  {id:"ruthina",nombre:"Ruthina",cat:"Ventas y clientes",icono:"🤖",desc:"Asistente de ventas: stock, clientes, comparador de precios, presupuestos y libros de cierre.",url:"https://osmarfernandez2555-cpu.github.io/RUTHINA",palabras:"ruthina stock clientes presupuesto comparador libros cierre"},
+  {id:"appsheet-app",nombre:"AppSheet · TUTU - APP",cat:"Ventas y clientes",icono:"📱",desc:"App original de AppSheet: calculador histórico, compras, peritaje, entregas.",url:"https://www.appsheet.com/home/apps",palabras:"appsheet tutu app calculador historico compras peritaje entregas"},
+  {id:"appsheet-ventas",nombre:"AppSheet · TUTU - VENTAS",cat:"Ventas y clientes",icono:"📊",desc:"App original de AppSheet de ventas.",url:"https://www.appsheet.com/home/apps",palabras:"appsheet ventas"},
+  {id:"panel-app-ventas",nombre:"Panel App Ventas",cat:"Ventas y clientes",icono:"🗂️",desc:"Copia web de TUTU - APP y TUTU - VENTAS en Railway.",url:"",palabras:"panel app ventas copia appsheet"},
+  {id:"kommo",nombre:"Kommo CRM",cat:"Ventas y clientes",icono:"💬",desc:"Leads, conversaciones y embudo de ventas.",url:"https://admtutuautomotores.kommo.com",palabras:"kommo crm leads embudo"},
+  {id:"twenty",nombre:"CRM Twenty",cat:"Ventas y clientes",icono:"📇",desc:"CRM propio (tutu-crm) con leads y conversaciones de WhatsApp.",url:"",palabras:"twenty crm propio tutu-crm"},
+  {id:"referidos-admin",nombre:"Club de Referidos · Panel",cat:"Club de Referidos",icono:"🔑",desc:"Panel interno: referidos por estado, vendedor asignado, total a pagar y exportar a Excel.",url:"https://tutu-referidos.up.railway.app/referidos/admin",palabras:"referidos panel admin pagar premio"},
+  {id:"referidos-landing",nombre:"Club de Referidos · Landing",cat:"Club de Referidos",icono:"🎁",desc:"La página pública para cargar un referido ($100.000 por venta).",url:"https://tutu-referidos.up.railway.app/referidos",palabras:"referidos landing formulario cargar"},
+  {id:"referidos-bases",nombre:"Club de Referidos · Bases",cat:"Club de Referidos",icono:"📜",desc:"Bases y condiciones de la campaña (12/11 al 31/12/2026).",url:"https://tutu-referidos.up.railway.app/referidos/bases",palabras:"bases condiciones tyc referidos"},
+  {id:"consulta-creditos",nombre:"Consulta Créditos",cat:"Créditos",icono:"🏦",desc:"Calificación por CUIT en Bancor, Nación, Galicia, decreditos y Santander.",url:"",palabras:"consulta creditos bancor nacion galicia santander decreditos cuit calificar"},
+  {id:"calculador",nombre:"Calculador de Créditos",cat:"Créditos",icono:"🧮",desc:"Cuotas por banco, mismas fórmulas que el Excel CALCULADOR del mes.",url:"",palabras:"calculador cuotas credito bancos"},
+  {id:"tutusita",nombre:"Tutusita · Panel de Ventas",cat:"Bots de WhatsApp",icono:"🟢",desc:"Bot de WhatsApp con verificación BCRA y transcripciones de leads.",url:"https://tutu-chat-agent-production.up.railway.app",palabras:"tutusita bot whatsapp bcra leads"},
+  {id:"wapp",nombre:"WApp Sender · Bandejas",cat:"Bots de WhatsApp",icono:"📨",desc:"Bandejas de compra y venta del bot de WhatsApp en producción.",url:"https://tutu-wapp-production.up.railway.app",palabras:"wapp sender bandeja venta compra whatsapp"},
+  {id:"reventa",nombre:"Bot de Reventa",cat:"Bots de WhatsApp",icono:"🔁",desc:"Autos leídos de grupos de reventa, con exportación CSV.",url:"",palabras:"reventa grupos bot autos"},
+  {id:"publicador",nombre:"Publicador Marketplace",cat:"Marketing",icono:"🛒",desc:"Publicación masiva de autos en Facebook Marketplace, en tandas de 10.",url:"",palabras:"publicador marketplace facebook publicar"},
+  {id:"resenas",nombre:"Reseñas Tutu",cat:"Marketing",icono:"⭐",desc:"Reseñas de Google convertidas en historias de Instagram con la plantilla de Tutu.",url:"",palabras:"reseñas resenas google historias instagram"},
+  {id:"web",nombre:"tutuautomotores.com",cat:"Marketing",icono:"🌐",desc:"La web pública con los autos publicados.",url:"https://tutuautomotores.com",palabras:"web pagina sitio"},
+  {id:"showroom",nombre:"Showroom 3D",cat:"Marketing",icono:"🚘",desc:"Recorrido 3D del galpón con autos en 360°.",url:"",palabras:"showroom 3d 360"},
+  {id:"tutu-match",nombre:"Tutu Match",cat:"Marketing",icono:"❤️",desc:"App estilo Tinder para publicar autos y hacer match con compradores.",url:"",palabras:"tutu match tinder"},
+  {id:"galpon",nombre:"Galpón 3D · Agentes",cat:"Gestión",icono:"🏭",desc:"Oficinas por área con un agente por responsable que informa desde los datos reales.",url:"",palabras:"galpon agentes areas informes"},
+  {id:"railway",nombre:"Railway",cat:"Sistemas",icono:"🚂",desc:"Donde corren los servidores y bases de datos de todas las apps.",url:"https://railway.app/dashboard",palabras:"railway servidores deploy"},
+  {id:"github",nombre:"GitHub",cat:"Sistemas",icono:"🐙",desc:"Código de todas las apps.",url:"https://github.com/osmarfernandez2555-cpu",palabras:"github codigo repos"}
+];
+const SUGERENCIAS = ["¿Cuántos referidos nuevos hay?","¿Cuánto hay que pagar de referidos?","Abrí Ruthina","Abrí el panel de referidos","Abrí Kommo"];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const envKey = id => 'URL_' + id.toUpperCase().replace(/[^A-Z0-9]/g,'_');
+const store = {
+  get(k){ try{ return sessionStorage.getItem(k) }catch(e){ return null } },
+  set(k,v){ try{ sessionStorage.setItem(k,v) }catch(e){} },
+  del(k){ try{ sessionStorage.removeItem(k) }catch(e){} }
+};
+
+let PASS = '', APPS = [], DEMO = false, estado = {}, historial = [];
+
+/* ── login ─────────────────────────────────────────────── */
+async function api(ruta, opt = {}) {
+  const r = await fetch(ruta, { ...opt, headers: { 'content-type':'application/json', 'x-admin-pass': PASS, ...(opt.headers||{}) } });
+  let data = null; try { data = await r.json() } catch(e) {}
+  if (!r.ok) { const e = new Error((data && data.error) || `Error ${r.status}`); e.status = r.status; e.sinServidor = !data; throw e }
+  return data;
+}
+
+async function entrar(p, silencioso) {
+  PASS = p;
+  try {
+    await api('/api/login', { method:'POST', body: JSON.stringify({ pass: p }) });
+    APPS = await api('/api/apps');
+    if (!Array.isArray(APPS)) throw Object.assign(new Error('sin servidor'), { sinServidor: true });
+    DEMO = false;
+  } catch (e) {
+    if (e.sinServidor || e.status === 404 || e.status === 405 || e instanceof TypeError) {
+      DEMO = true; APPS = APPS_RESPALDO;           // vista previa sin servidor
+    } else {
+      PASS = ''; store.del('tutu_admin_pass');
+      if (!silencioso) $('#loginErr').textContent = e.message;
+      return;
+    }
+  }
+  store.set('tutu_admin_pass', p);
+  $('#login').style.display = 'none';
+  $('#app').style.display = 'block';
+  iniciar();
+}
+$('#loginForm').addEventListener('submit', e => { e.preventDefault(); $('#loginErr').textContent=''; entrar($('#pass').value) });
+$('#btnSalir').onclick = () => { store.del('tutu_admin_pass'); location.reload() };
+const guardada = store.get('tutu_admin_pass');
+if (guardada) entrar(guardada, true); else $('#pass').focus();
+
+/* ── panel ─────────────────────────────────────────────── */
+function iniciar() {
+  const h = new Date().getHours();
+  $('#hola').innerHTML = `${h < 13 ? 'Buen día' : h < 20 ? 'Buenas tardes' : 'Buenas noches'}, <span>Adrián</span>`;
+  $('#fecha').textContent = new Date().toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  $('#demoBar').style.display = DEMO ? 'block' : 'none';
+  $('#asModo').textContent = DEMO ? 'Vista previa · solo abre apps' : 'Hablale o escribile';
+  pintar();
+  revisar();
+  pintarSugerencias();
+  bienvenida();
+}
+
+function filtradas() {
+  const q = norm($('#buscar').value.trim());
+  if (!q) return APPS;
+  return APPS.filter(a => q.split(/\s+/).every(t => norm(a.nombre+' '+a.desc+' '+a.cat+' '+(a.palabras||'')).includes(t)));
+}
+
+function pintar() {
+  const lista = filtradas();
+  const cats = [...new Set(lista.map(a => a.cat))];
+  $('#secciones').innerHTML = lista.length ? cats.map(c => `
+    <section class="cat"><h2>${esc(c)}</h2><div class="grid">
+      ${lista.filter(a => a.cat === c).map(card).join('')}
+    </div></section>`).join('') : `<div class="vacio">No hay apps que coincidan.</div>`;
+  pintarResumen();
+}
+
+function card(a) {
+  if (!a.url) return `<div class="card sin" title="Falta cargar el link">
+      <div class="ic">${a.icono||'•'}</div><div class="nm">${esc(a.nombre)}</div>
+      <div class="ds">${esc(a.desc)}</div>
+      <div class="falta">Falta el link · <code>${envKey(a.id)}</code></div></div>`;
+  const st = estado[a.id];
+  return `<a class="card" href="${esc(a.url)}" target="_blank" rel="noopener" data-id="${esc(a.id)}" style="text-decoration:none;color:inherit">
+      <span class="st ${st||''}" title="${st==='ok'?'Responde':st==='bad'?'No responde':'Revisando…'}"></span>
+      <div class="ic">${a.icono||'•'}</div><div class="nm">${esc(a.nombre)}</div>
+      <div class="ds">${esc(a.desc)}</div></a>`;
+}
+
+function pintarResumen() {
+  const conLink = APPS.filter(a => a.url);
+  const ok = conLink.filter(a => estado[a.id] === 'ok').length;
+  const bad = conLink.filter(a => estado[a.id] === 'bad').length;
+  const sin = APPS.length - conLink.length;
+  $('#resumen').innerHTML = `
+    <div class="stat"><div class="n">${APPS.length}</div><div class="l">Apps de Tutu</div></div>
+    <div class="stat ok"><div class="n">${ok}</div><div class="l">Responden</div></div>
+    ${bad ? `<div class="stat bad"><div class="n">${bad}</div><div class="l">No responden</div></div>` : ''}
+    ${sin ? `<div class="stat warn"><div class="n">${sin}</div><div class="l">Sin link cargado</div></div>` : ''}`;
+}
+
+async function revisar() {
+  estado = {};
+  pintar();
+  await Promise.all(APPS.filter(a => a.url).map(async a => {
+    const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 8000);
+    try { await fetch(a.url, { mode:'no-cors', cache:'no-store', signal: ctrl.signal }); estado[a.id] = 'ok' }
+    catch (e) { estado[a.id] = 'bad' }
+    clearTimeout(t);
+    const el = document.querySelector(`.card[data-id="${a.id}"] .st`);
+    if (el) { el.className = 'st ' + estado[a.id]; el.title = estado[a.id] === 'ok' ? 'Responde' : 'No responde' }
+    pintarResumen();
+  }));
+}
+$('#btnRevisar').onclick = revisar;
+
+$('#buscar').addEventListener('input', pintar);
+$('#buscar').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { const a = filtradas().find(x => x.url); if (a) window.open(a.url, '_blank', 'noopener') }
+  if (e.key === 'Escape') { e.target.value = ''; pintar(); e.target.blur() }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); $('#buscar').focus() }
+});
+
+/* ── asistente ─────────────────────────────────────────── */
+const chat = $('#chat'), texto = $('#texto');
+let hablar = true, ocupado = false;
+
+function burbuja(rol, contenido, extra = {}) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + rol + (extra.err ? ' err' : '');
+  d.innerHTML = esc(contenido) + (extra.links && extra.links.length
+    ? `<div class="links">${extra.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.nombre)} ↗</a>`).join('')}</div>` : '');
+  chat.appendChild(d); chat.scrollTop = chat.scrollHeight;
+  return d;
+}
+function escribiendo() {
+  const d = document.createElement('div'); d.className = 'msg a';
+  d.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
+  chat.appendChild(d); chat.scrollTop = chat.scrollHeight; return d;
+}
+function bienvenida() {
+  chat.innerHTML = ''; historial = [];
+  burbuja('a', DEMO
+    ? 'Hola Adrián. En esta vista previa puedo abrir cualquier app: decime "abrí Ruthina" o "abrí referidos".'
+    : 'Hola Adrián. Puedo abrirte cualquier app de Tutu y contarte cómo viene el Club de Referidos. Tocá el micrófono y hablame, o escribime.');
+}
+function pintarSugerencias() {
+  $('#sugs').innerHTML = SUGERENCIAS.filter(s => !DEMO || /^Abr/.test(s))
+    .map(s => `<button class="sug">${esc(s)}</button>`).join('');
+  $('#sugs').querySelectorAll('.sug').forEach(b => b.onclick = () => enviar(b.textContent));
+}
+$('#btnLimpiar').onclick = () => { speechSynthesis && speechSynthesis.cancel(); bienvenida() };
+
+function abrir(lista) {
+  const bloqueadas = [];
+  for (const a of lista) { const w = window.open(a.url, '_blank', 'noopener'); if (!w) bloqueadas.push(a) }
+  return bloqueadas;
+}
+
+function localResponder(q) {
+  const n = norm(q);
+  const quiereAbrir = /\b(abr|abri|abrir|abrime|entra|entrar|ir a|anda a|mostra|mostrame|ver)\b/.test(n);
+  const hits = APPS.map(a => {
+    const words = norm(a.nombre + ' ' + (a.palabras||'')).split(/[^a-z0-9]+/).filter(w => w.length > 3);
+    return { a, s: words.filter(w => n.includes(w)).length };
+  }).filter(x => x.s > 0).sort((x, y) => y.s - x.s);
+  if (!hits.length) return { texto: 'En la vista previa solo puedo abrir apps. Decime cuál, por ejemplo "abrí Kommo".', acciones: [] };
+  const a = hits[0].a;
+  if (!a.url) return { texto: `${a.nombre} todavía no tiene el link cargado.`, acciones: [] };
+  return { texto: quiereAbrir ? `Te abro ${a.nombre}.` : `¿Querés que abra ${a.nombre}? Te dejo el link.`, acciones: [{ tipo:'abrir', id:a.id, url:a.url, nombre:a.nombre, auto: quiereAbrir }] };
+}
+
+async function enviar(q) {
+  q = (q ?? texto.value).trim();
+  if (!q || ocupado) return;
+  texto.value = ''; ajustar(); $('#btnEnviar').disabled = true;
+  burbuja('u', q); historial.push({ role:'user', content:q });
+  ocupado = true; const t = escribiendo();
+  let r;
+  try {
+    r = DEMO ? localResponder(q) : await api('/api/asistente', { method:'POST', body: JSON.stringify({ mensajes: historial }) });
+  } catch (e) {
+    t.remove(); ocupado = false; historial.pop();
+    if (e.status === 401) { store.del('tutu_admin_pass'); location.reload(); return }
+    burbuja('a', 'No pude responder: ' + e.message, { err:true }); return;
+  }
+  t.remove(); ocupado = false;
+  const acciones = (r.acciones || []).filter(a => a.tipo === 'abrir' && a.url);
+  const abrirAuto = acciones.filter(a => a.auto !== false);
+  const bloqueadas = abrirAuto.length ? abrir(abrirAuto) : [];
+  let msg = r.texto || 'Listo.';
+  if (bloqueadas.length) msg += '\n\nEl navegador frenó la pestaña nueva: tocá el botón para abrirla.';
+  burbuja('a', msg, { links: acciones });
+  historial.push({ role:'assistant', content: r.texto || 'Listo.' });
+  decir(r.texto);
+}
+
+/* voz: hablar (lectura) */
+let vozES = null;
+function elegirVoz() {
+  const vs = speechSynthesis.getVoices();
+  vozES = vs.find(v => /es-AR/i.test(v.lang)) || vs.find(v => /es-(US|419|MX)/i.test(v.lang)) || vs.find(v => /^es/i.test(v.lang)) || null;
+}
+if ('speechSynthesis' in window) { elegirVoz(); speechSynthesis.onvoiceschanged = elegirVoz }
+function decir(t) {
+  if (!hablar || !t || !('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t.replace(/[*_#`>]/g, '').replace(/\$\s?([\d.]+)/g, '$1 pesos'));
+  u.lang = vozES ? vozES.lang : 'es-AR'; if (vozES) u.voice = vozES; u.rate = 1.05;
+  speechSynthesis.speak(u);
+}
+$('#btnVoz').onclick = e => {
+  hablar = !hablar;
+  e.currentTarget.classList.toggle('on', hablar);
+  e.currentTarget.setAttribute('aria-pressed', hablar);
+  if (!hablar && 'speechSynthesis' in window) speechSynthesis.cancel();
+};
+
+/* voz: escuchar (dictado) */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, grabando = false, finalTxt = '';
+if (SR) {
+  rec = new SR(); rec.lang = 'es-AR'; rec.interimResults = true; rec.continuous = false;
+  rec.onstart = () => { grabando = true; finalTxt = ''; $('#btnMic').classList.add('rec'); $('#vozEstado').textContent = 'Escuchando…' };
+  rec.onresult = e => {
+    let interino = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalTxt += e.results[i][0].transcript; else interino += e.results[i][0].transcript;
+    }
+    texto.value = (finalTxt + ' ' + interino).trim(); ajustar();
+  };
+  rec.onerror = e => {
+    $('#vozEstado').textContent = e.error === 'not-allowed' ? 'Hay que permitir el micrófono en el navegador.'
+      : e.error === 'no-speech' ? 'No escuché nada, probá de nuevo.' : 'Error de micrófono: ' + e.error;
+  };
+  rec.onend = () => {
+    grabando = false; $('#btnMic').classList.remove('rec');
+    if ($('#vozEstado').textContent === 'Escuchando…') $('#vozEstado').textContent = '';
+    if (texto.value.trim()) enviar();
+  };
+}
+$('#btnMic').onclick = () => {
+  if (!rec) { $('#vozEstado').textContent = 'Este navegador no permite dictado. Usá Chrome o Edge.'; return }
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  if (grabando) rec.stop(); else { try { rec.start() } catch (e) {} }
+};
+
+function ajustar() { texto.style.height = 'auto'; texto.style.height = Math.min(texto.scrollHeight, 120) + 'px'; $('#btnEnviar').disabled = !texto.value.trim() }
+texto.addEventListener('input', ajustar);
+texto.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar() } });
+$('#btnEnviar').onclick = () => enviar();
+
+/* móvil */
+$('#fab').onclick = () => { $('#asistente').classList.add('open'); setTimeout(() => texto.focus(), 300) };
+$('#btnCerrarAs').onclick = () => $('#asistente').classList.remove('open');
+</script>
+</body>
+</html>
